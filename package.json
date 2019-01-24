@@ -1,0 +1,29 @@
+{
+  "name": "mern_random",
+  "version": "1.0.0",
+  "description": "MERN Random",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server_build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joakimolofsson/mern_random.git"
+  },
+  "author": "Joakim Olofsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joakimolofsson/mern_random/issues"
+  },
+  "homepage": "https://github.com/joakimolofsson/mern_random#readme",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-router": "0.0.1",
+    "mongoose": "^5.4.6"
+  },
+  "proxy": "http://localhost:4000"
+}
