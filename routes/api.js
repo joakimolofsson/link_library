@@ -11,7 +11,10 @@ router.post('/', async (req, res) => {
             password: req.body.password
         }),
         'isNull',
-        {success: 'Login Success', failed: 'Login Failed'}
+        {
+            success: 'Login Success',
+            failed: 'Login Failed'
+        }
     );
 
     res.send(loginUser);
@@ -31,14 +34,20 @@ router.post('/register', async (req, res) => {
             email: newUser.email
         }),
         'notNull',
-        {success: 'new', failed: 'E-mail Address Already Exists'}
+        {
+            success: 'new', 
+            failed: 'E-mail Address Already Exists'
+        }
     );
 
     if(existingEmailAddress === 'new') {
         const registerNewUser = await handleCall(
             newUser.save(),
             '',
-            {success: 'New User Registered', failed: 'Failed to Register New User'}
+            {
+                success: 'New User Registered',
+                failed: 'Failed to Register New User'
+            }
         );
         
         res.send(registerNewUser);
