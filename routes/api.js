@@ -2,25 +2,19 @@ import express from 'express';
 const router = express.Router();
 
 import UserModel from '../models/user';
+import handleCall from '../helper/handleCall';
 
 router.post('/', async (req, res) => {
-    try {
-        const loginUser = await UserModel.findOne({
+    const loginUser = await handleCall(
+        UserModel.findOne({
             email: req.body.email,
             password: req.body.password
-        });
+        }),
+        'isNull',
+        {success: 'Login Success', failed: 'Login Failed'}
+    );
 
-        if(loginUser != null) {
-            console.log(`Login Success ${req.body.email} ${req.body.password} ${Date()}`);
-            res.send('Login Success');
-        } else {
-            console.log(`Login Failed ${req.body.email} ${req.body.password} ${Date()}`);
-            res.send('Login Failed');
-        }
-    } catch(err) {
-        console.log(`/api/ Error: ${err}`);
-        res.send('Something Went Wrong');
-    }
+    res.send(loginUser);
 });
 
 router.post('/register', async (req, res) => {
@@ -32,27 +26,24 @@ router.post('/register', async (req, res) => {
         password: req.body.password
     });
 
-    try {
-        const checkDbForSameEmail = await UserModel.findOne({
+    const existingEmailAddress = await handleCall(
+        UserModel.findOne({
             email: newUser.email
-        });
+        }),
+        'notNull',
+        {success: 'new', failed: 'E-mail Address Already Exists'}
+    );
 
-        if(checkDbForSameEmail != null) {
-            console.log(`Email Already Exists: ${newUser.email}`)
-            return res.send('Email Already Exists');
-        }
-    } catch(err) {
-        console.log(`checkDbForSameEmail: ${err}`);
-        return res.send('Something Went Wrong');
-    }
-
-    try {
-        const addNewUserToDb = await newUser.save();
-        console.log(`New User Registered: ${addNewUserToDb}`);
-        res.send('New User Registered');
-    } catch(err) {
-        console.log(`Error Registering New User: ${err}`);
-        res.send('Error Registering New User');
+    if(existingEmailAddress === 'new') {
+        const registerNewUser = await handleCall(
+            newUser.save(),
+            '',
+            {success: 'New User Registered', failed: 'Failed to Register New User'}
+        );
+        
+        res.send(registerNewUser);
+    } else {
+        res.send(existingEmailAddress);
     }
 });
 
