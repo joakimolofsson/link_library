@@ -1,2 +1,2 @@
-# mern_random
-MERN Random
+# mern_app
+MERN App

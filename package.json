@@ -1,7 +1,7 @@
 {
-  "name": "mern_random",
+  "name": "mern_app",
   "version": "1.0.0",
-  "description": "MERN Random",
+  "description": "MERN App",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joakimolofsson/mern_random.git"
+    "url": "git+https://github.com/joakimolofsson/mern_app.git"
   },
   "author": "Joakim Olofsson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joakimolofsson/mern_random/issues"
+    "url": "https://github.com/joakimolofsson/mern_app/issues"
   },
-  "homepage": "https://github.com/joakimolofsson/mern_random#readme",
+  "homepage": "https://github.com/joakimolofsson/mern_app#readme",
   "dependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
