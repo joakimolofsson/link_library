@@ -21,6 +21,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-router": "0.0.1",
     "mongoose": "^5.4.6"

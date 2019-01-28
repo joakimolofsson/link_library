@@ -1,16 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import dotEnv from 'dotenv';
 
-import db from './config/db';
-const mongoDb = async () => {
-    try {
-        await mongoose.connect(db, { useNewUrlParser: true });
-        console.log('MongoDB Connected');
-    } catch(err) {
-        console.log(`MongoDB Error: ${err}`);
-    }
-};
+dotEnv.config();
+
+import mongoDb from './config/db';
 mongoDb();
 
 const app = express(),
