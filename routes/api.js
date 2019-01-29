@@ -1,11 +1,12 @@
 import express from 'express';
-const router = express.Router();
+import { check, validationResult } from 'express-validator/check';
 
 import UserModel from '../models/user';
-import handleCall from '../helper/handleCall';
 
-router.post('/', async (req, res) => {
-    const loginUser = await handleCall(
+const router = express.Router();
+
+router.post('/', [], async (req, res) => {
+    /* const loginUser = await handleDbCall(
         UserModel.findOne({
             email: req.body.email,
             password: req.body.password
@@ -17,42 +18,46 @@ router.post('/', async (req, res) => {
         }
     );
 
-    res.json(loginUser);
+    res.json(loginUser); */
 });
 
-router.post('/register', async (req, res) => {
-    const newUser = UserModel({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        age: req.body.age,
-        email: req.body.email,
-        password: req.body.password
-    });
-
-    const existingEmailAddress = await handleCall(
-        UserModel.findOne({
-            email: newUser.email
-        }),
-        'notNull',
-        {
-            success: 'new', 
-            failed: 'E-mail Address Already Exists'
-        }
-    );
-
-    if(existingEmailAddress === 'new') {
-        const registerNewUser = await handleCall(
-            newUser.save(),
-            '',
-            {
-                success: 'New User Registered',
-                failed: 'Failed to Register New User'
+router.post('/register', [
+    check('firstname').isLength({min: 1, max: 20}).trim().escape().withMessage('Your firstname is not valid!'),
+    check('lastname').isLength({min: 1, max: 20}).trim().escape().withMessage('Your lastname is not valid!'),
+    check('age').isInt().withMessage('Your age is not valid!'),
+    check('email').isEmail().normalizeEmail().withMessage('Your e-mail is not valid!').custom(async value => {
+        try {
+            const checkEmail = await UserModel.findOne({
+                email: value
+            });
+            if(checkEmail) {
+                return Promise.reject('E-mail address already exists!');
             }
-        );
-        
-        res.send(registerNewUser);
+        } catch(err) {
+            return Promise.reject('Something went wrong!');
+        }
+    }),
+    check('password').isLength({min: 6, max: 20}).withMessage('Your password is not valid!')
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.json({status: errors.array()});
     } else {
-        res.send(existingEmailAddress);
+        const newUser = UserModel({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            age: req.body.age,
+            email: req.body.email,
+            password: req.body.password
+        });
+        
+        try {
+            await newUser.save();
+            console.log(`New user registered | ${Date()}`)
+            return res.json({status: 'New user registered!'}) 
+        } catch(err) {
+            return console.log(`Failed to save new user | ${err} | ${Date()}`);
+        }
     }
 });
 
