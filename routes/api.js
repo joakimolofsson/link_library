@@ -12,12 +12,12 @@ router.post('/', async (req, res) => {
         }),
         'isNull',
         {
-            success: 'Login Success',
-            failed: 'Login Failed'
+            success: `Login Success: ${req.body.email} | ${Date()}`,
+            failed: `Login Failed: ${req.body.email} | ${Date()}`
         }
     );
 
-    res.send(loginUser);
+    res.json(loginUser);
 });
 
 router.post('/register', async (req, res) => {
@@ -56,8 +56,8 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.get('/welcome', (req, res) => {
-    res.send('Welcome');
+router.get('/protected', (req, res) => {
+    res.send('protected');
 });
 
 export default router;

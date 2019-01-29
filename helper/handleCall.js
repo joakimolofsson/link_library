@@ -1,26 +1,29 @@
-async function handleCall(callback, checkNull, clientMsg) {
+async function handleCall(callback, checkNull, serverMsg) {
     try {
         const callbackData = await callback;
 
         switch(checkNull) {
             case 'isNull':
                 if(callbackData === null) {
-                    return clientMsg.failed;
+                    console.log(`isNull | ${serverMsg.failed}`);
+                    return {status: 'failed'};
                 }
                 break;
             case 'notNull':
                 if(callbackData !== null) {
-                    return clientMsg.failed;
+                    console.log(`notNull | ${serverMsg.failed}`);
+                    return {status: 'failed'};
                 }
                 break;
             default:
                 break;
         }
 
-        return clientMsg.success;
+        console.log(serverMsg.success);
+        return {status: 'success'};
     } catch(err) {
-        console.log(`handleCall Err: ${err}`);
-        return clientMsg.failed;
+        console.log(`handleCall Err | ${err} | ${Date()}`);
+        return {status: 'error'};
     }
 }
 

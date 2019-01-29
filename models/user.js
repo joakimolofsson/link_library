@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        timestamp: {
+        created: {
             type: Date,
             default: Date.now
         }
