@@ -56,4 +56,8 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.get('/welcome', (req, res) => {
+    res.send('Welcome');
+});
+
 export default router;
