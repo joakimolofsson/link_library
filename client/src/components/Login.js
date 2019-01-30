@@ -30,7 +30,8 @@ class Login extends Component {
             });
             
             const serverResponse = await loginUser.json();
-            this.handleResponse(serverResponse.status);
+            console.log(serverResponse);
+            //this.handleResponse(serverResponse.status);
         } catch(err) {
             console.log(err);
         }

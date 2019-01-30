@@ -2,10 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotEnv from 'dotenv';
 import cors from 'cors';
+import mongoDb from './config/db';
+import api from './routes/api';
 
 dotEnv.config();
-
-import mongoDb from './config/db';
 mongoDb();
 
 const app = express(),
@@ -15,8 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
-
-import api from './routes/api';
 app.use('/api', api);
 
 app.listen(port, () => {
