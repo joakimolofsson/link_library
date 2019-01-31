@@ -1,8 +1,26 @@
-import { check } from 'express-validator/check';
+import { check, validationResult } from 'express-validator/check';
 import UserModel from '../models/user';
 
+const inputErrors = (req) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const errorList = [];
+        for(let errorMsg in errors.array()) {
+            errorList.push(errors.array()[errorMsg].msg);
+        }
+        return errorList;
+    } else {
+        return;
+    }
+}
+
 const loginInputValidation = [
-    check('password').isLength({ min: 3 })
+    check('email')
+        .isEmail()
+        .withMessage('Your e-mail is not valid!'),
+    check('password')
+        .isLength({min: 6, max: 20})
+        .withMessage('Your password is not valid!')
 ];
 
 const registerInputValidation = [
@@ -40,4 +58,4 @@ const registerInputValidation = [
         .withMessage('Your password is not valid!')
 ];
 
-export default { loginInputValidation, registerInputValidation }
+export default { inputErrors, loginInputValidation, registerInputValidation }

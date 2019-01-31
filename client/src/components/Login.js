@@ -3,7 +3,7 @@ import './css/Login.css';
 
 class Login extends Component {
     state = {
-        message: '',
+        serverMsg: [],
         email: '',
         password: ''
     }
@@ -30,34 +30,19 @@ class Login extends Component {
             });
             
             const serverResponse = await loginUser.json();
-            console.log(serverResponse);
-            //this.handleResponse(serverResponse.status);
+            this.handleResponse(serverResponse);
         } catch(err) {
-            console.log(err);
+            console.log(`Fetch: ${err}`);
         }
     }
 
     handleResponse = (resp) => {
-        switch(resp) {
-            case 'success':
-                this.props.history.push("/protected");
-                break;
-            case 'failed':
-                this.setState({
-                    message: 'Wrong E-mail or Password!',
-                    email: '',
-                    password: ''
-                });
-                break;
-            case 'error':
-                this.setState({
-                    message: 'Something Went Wrong!',
-                    email: '',
-                    password: ''
-                });
-                break;
-            default:
-                break;
+        if(resp[0] === 'success') {
+            this.props.history.push("/protected");
+        } else {
+            this.setState({
+                serverMsg: resp
+            });
         }
     }
 
@@ -65,12 +50,16 @@ class Login extends Component {
         return (
             <div className="Login">
                 <h2>Login</h2>
-                <p>{this.state.message}</p>
+                {
+                    this.state.serverMsg.map((data, index) => {
+                        return <p key={index}>{data}</p>
+                    })
+                }
                 <form onSubmit={this.handleSubmit}>
                     <p>E-mail:</p>
-                    <input type="email" name="email" value={this.state.email} onChange={this.handleChange} required/>
+                    <input type="email" name="email" value={this.state.email} onChange={this.handleChange} />
                     <p>Password:</p>
-                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} required/>
+                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
                     <br/>
                     <input type="submit" value="Login"/>
                 </form>

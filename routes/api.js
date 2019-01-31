@@ -1,25 +1,30 @@
 import express from 'express';
-import { validationResult } from 'express-validator/check';
+
 import UserModel from '../models/user';
-import v from '../controller/inputValidation';
+import v from '../controllers/inputValidation';
 
 const router = express.Router();
 
 router.post('/', v.loginInputValidation, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.json({status: errors.array()});
+    if(v.inputErrors(req)) {
+        res.json(v.inputErrors(req));
     } else {
         try {
             const loginUser = await UserModel.findOne({
                 email: req.body.email,
                 password: req.body.password
             });
-            console.log(loginUser);
+
+            if(loginUser) {
+                console.log(`Login: ${loginUser.email} ${Date()}`);
+                return res.json(['success']);
+            } else {
+                return res.json(['Wrong e-mail or password!']);
+            }
         } catch(err) {
-            return console.log('login fail');
+            console.log(`Login Failed: ${Date()}`);
+            return res.json(['Something went wrong!']);
         }
-        //res.json({status: 'success'});
     }
 });
 
