@@ -3,17 +3,22 @@ import './css/Register.css';
 
 class Register extends Component {
     state = {
-        message: '',
-        firstname: '',
-        lastname: '',
-        age: '',
-        email: '',
-        password: ''
+        serverMsg: [],
+        userInput: {
+            firstname: '',
+            lastname: '',
+            age: '',
+            email: '',
+            password: ''
+        }
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value
+            userInput: {
+                ...this.state.userInput,
+                [e.target.name]: e.target.value
+            }
         });
     }
 
@@ -27,75 +32,66 @@ class Register extends Component {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    firstname: this.state.firstname,
-                    lastname: this.state.lastname,
-                    age: this.state.age,
-                    email: this.state.email,
-                    password: this.state.password
+                    firstname: this.state.userInput.firstname,
+                    lastname: this.state.userInput.lastname,
+                    age: this.state.userInput.age,
+                    email: this.state.userInput.email,
+                    password: this.state.userInput.password
                 })
             });
             
             const serverResponse = await registerUser.json();
-            console.log(serverResponse);
-            //this.handleResponse(serverResponse.status);
+            this.handleResponse(serverResponse);
         } catch(err) {
-            console.log(err);
+            console.log(`Register Fetch: ${err}`);
         }
     }
 
     handleResponse = (resp) => {
-        switch(resp) {
-            case 'success':
-                this.setState({
-                    message: 'New User Registered!',
-                    firstname: '',
-                    lastname: '',
-                    age: '',
-                    email: '',
-                    password: ''
-                });
-                break;
-            case 'failed':
-                this.setState({
-                    message: 'Failed to Register New User!',
-                    firstname: '',
-                    lastname: '',
-                    age: '',
-                    email: '',
-                    password: ''
-                });
-                break;
-            case 'error':
-                this.setState({
-                    message: 'Something Went Wrong!',
-                    firstname: '',
-                    lastname: '',
-                    age: '',
-                    email: '',
-                    password: ''
-                });
-                break;
-            default:
-                break;
+        if(resp[0] === 'success') {
+            this.resetInputFields();
+            this.setState({
+                serverMsg: ['New User Registered!']
+            });
+        } else {
+            this.setState({
+                serverMsg: resp
+            });
         }
+    }
+
+    resetInputFields = () => {
+        let resetInput = {};
+        for(let key in this.state.userInput) {
+            resetInput = {...resetInput, [key]: ''}
+        }
+        this.setState({
+            userInput: {
+                ...resetInput
+            }
+        });
     }
 
     render() {
         return (
             <div className="Register">
                 <h2>Register</h2>
-                <p>{this.state.message}</p>
+                {
+                    this.state.serverMsg.map((data, index) => {
+                        return <p key={index}>{data}</p>
+                    })
+                }
                 <form onSubmit={this.handleSubmit}>
                     <p>Firstname:</p>
-                    <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleChange} />
+                    <input type="text" name="firstname" value={this.state.userInput.firstname} onChange={this.handleChange} />
                     <p>Lastname:</p>
-                    <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange} />
+                    <input type="text" name="lastname" value={this.state.userInput.lastname} onChange={this.handleChange} />
                     <p>Age:</p>
-                    <input type="text" name="age" value={this.state.age} onChange={this.handleChange} />
+                    <input type="text" name="age" value={this.state.userInput.age} onChange={this.handleChange} />
                     <p>E-mail:</p>
-                    <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
+                    <input type="text" name="email" value={this.state.userInput.email} onChange={this.handleChange} />
                     <p>Password:</p>
-                    <input type="text" name="password" value={this.state.password} onChange={this.handleChange} />
+                    <input type="text" name="password" value={this.state.userInput.password} onChange={this.handleChange} />
                     <br/>
                     <input type="submit" value="Register"/>
                 </form>

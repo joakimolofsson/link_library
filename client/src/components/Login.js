@@ -4,13 +4,18 @@ import './css/Login.css';
 class Login extends Component {
     state = {
         serverMsg: [],
-        email: '',
-        password: ''
+        userInput: {
+            email: '',
+            password: ''
+        }
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value
+            userInput: {
+                ...this.state.userInput,
+                [e.target.name]: e.target.value
+            }
         });
     }
 
@@ -24,19 +29,20 @@ class Login extends Component {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: this.state.email,
-                    password: this.state.password
+                    email: this.state.userInput.email,
+                    password: this.state.userInput.password
                 })
             });
             
             const serverResponse = await loginUser.json();
             this.handleResponse(serverResponse);
         } catch(err) {
-            console.log(`Fetch: ${err}`);
+            console.log(`Login Fetch: ${err}`);
         }
     }
 
     handleResponse = (resp) => {
+        this.resetInputFields();
         if(resp[0] === 'success') {
             this.props.history.push("/protected");
         } else {
@@ -44,6 +50,18 @@ class Login extends Component {
                 serverMsg: resp
             });
         }
+    }
+
+    resetInputFields = () => {
+        let resetInput = {};
+        for(let key in this.state.userInput) {
+            resetInput = {...resetInput, [key]: ''}
+        }
+        this.setState({
+            userInput: {
+                ...resetInput
+            }
+        });
     }
 
     render() {
@@ -57,9 +75,9 @@ class Login extends Component {
                 }
                 <form onSubmit={this.handleSubmit}>
                     <p>E-mail:</p>
-                    <input type="email" name="email" value={this.state.email} onChange={this.handleChange} />
+                    <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} />
                     <p>Password:</p>
-                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+                    <input type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} />
                     <br/>
                     <input type="submit" value="Login"/>
                 </form>

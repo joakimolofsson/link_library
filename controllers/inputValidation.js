@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator/check';
 import UserModel from '../models/user';
 
-const inputErrors = (req) => {
+const inputErrorList = (req) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errorList = [];
@@ -16,31 +16,26 @@ const inputErrors = (req) => {
 
 const loginInputValidation = [
     check('email')
-        .isEmail()
-        .withMessage('Your e-mail is not valid!'),
+        .isEmail().withMessage('Your e-mail is not valid!'),
     check('password')
-        .isLength({min: 6, max: 20})
-        .withMessage('Your password is not valid!')
+        .isLength({min: 6, max: 20}).withMessage('Your password is not valid!')
 ];
 
 const registerInputValidation = [
     check('firstname')
-        .isLength({min: 1, max: 20})
-        .trim()
-        .escape()
-        .withMessage('Your firstname is not valid!'),
+        .trim().escape()
+        .isLength({min: 1, max: 20}).withMessage('Your firstname is too long or too short!'),
     check('lastname')
-        .isLength({min: 1, max: 20})
-        .trim()
-        .escape()
-        .withMessage('Your lastname is not valid!'),
+        .trim().escape()
+        .isLength({min: 1, max: 20}).withMessage('Your lastname is too long or too short!'),
     check('age')
-        .isInt()
-        .withMessage('Your age is not valid!'),
+        .trim()
+        .isInt().withMessage('Your age is not valid!')
+        .isLength({min: 1, max: 3}).withMessage('Your age is too long or too short!'),
     check('email')
-        .isEmail()
         .normalizeEmail()
-        .withMessage('Your e-mail is not valid!')
+        .isEmail().withMessage('Your e-mail is not valid!')
+        .isLength({min: 1, max: 40}).withMessage('Your e-mail is too long or too short!')
         .custom(async (email) => {
             try {
                 const checkEmail = await UserModel.findOne({
@@ -54,8 +49,7 @@ const registerInputValidation = [
             }
         }),
     check('password')
-        .isLength({min: 6, max: 20})
-        .withMessage('Your password is not valid!')
+        .isLength({min: 6, max: 20}).withMessage('Your password is too long or too short!')
 ];
 
-export default { inputErrors, loginInputValidation, registerInputValidation }
+export default { inputErrorList, loginInputValidation, registerInputValidation }
