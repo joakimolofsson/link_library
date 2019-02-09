@@ -1,13 +1,16 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import UserModel from '../models/user';
-import v from '../controllers/inputValidation';
+import v from '../handlers/inputValidation';
+import verifyToken from '../handlers/verifyToken';
 
 const router = express.Router();
 
 router.post('/', v.loginInputValidation, async (req, res) => {
-    if(v.inputErrorList(req)) {
-        return res.json(v.inputErrorList(req));
+    const inputErrors = v.handleInputErrors(req);
+    if(inputErrors) {
+        return res.json({status: inputErrors[0].msg});
     } else {
         try {
             const loginUser = await UserModel.findOne({
@@ -17,24 +20,29 @@ router.post('/', v.loginInputValidation, async (req, res) => {
             if(loginUser) {
                 const comparePasswords = await bcrypt.compare(req.body.password, loginUser.password);
                 if(comparePasswords) {
-                    console.log(`Login: ${loginUser.email} ${Date()}`);
-                    return res.json(['success']);
+                    const requestToken = await jwt.sign({user: loginUser}, process.env.JWTSECRET, {expiresIn: '30s'});
+                    console.log(`Login | ${Date()} | ${loginUser.email}`);
+                    return res.json({
+                        status: 'success',
+                        token: requestToken
+                    });
                 } else {
-                    return res.json(['Wrong e-mail or password!']);
+                    return res.json({status: 'Wrong e-mail or password!'});
                 }
             } else {
-                return res.json(['Wrong e-mail or password!']);
+                return res.json({status: 'Wrong e-mail or password!'});
             }
         } catch(err) {
-            console.log(`Login Failed: ${Date()} | ${err}`);
-            return res.json(['Something went wrong!']);
+            console.log(`Login Failed | ${Date()} | ${err}`);
+            return res.json({status: 'Something went wrong!'});
         }
     }
 });
 
 router.post('/register', v.registerInputValidation, async (req, res) => {
-    if(v.inputErrorList(req)) {
-        return res.json(v.inputErrorList(req));
+    const inputErrors = v.handleInputErrors(req);
+    if(inputErrors) {
+        return res.json({status: inputErrors[0].msg});
     } else {
         const newUser = UserModel({
             firstname: req.body.firstname,
@@ -48,17 +56,21 @@ router.post('/register', v.registerInputValidation, async (req, res) => {
             const hashedPassword = await bcrypt.hash(newUser.password, 10);
             newUser.password = hashedPassword;
             await newUser.save();
-            console.log(`New user registered | ${newUser} | ${Date()}`)
-            return res.json(['success']);
+            console.log(`New user registered | ${Date()} | ${newUser}`)
+            return res.json({status: 'success'});
         } catch(err) {
-            console.log(`Failed to save new user | ${err} | ${Date()}`);
-            return res.json(['Something went wrong!']);
+            console.log(`Failed to save new user | ${Date()} | ${err}`);
+            return res.json({status: 'Something went wrong!'});
         }
     }
 });
 
-router.get('/protected', (req, res) => {
-    
+router.post('/userinfo', verifyToken, async (req, res) => {
+    const userData = req.body.user;
+    return res.json({
+        status: 'success',
+        userData
+    });
 });
 
 export default router;

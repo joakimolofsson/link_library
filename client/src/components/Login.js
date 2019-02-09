@@ -3,7 +3,9 @@ import './css/Login.css';
 
 class Login extends Component {
     state = {
-        serverMsg: [],
+        serverMsg: {
+            status: ''
+        },
         userInput: {
             email: '',
             password: ''
@@ -22,7 +24,7 @@ class Login extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const loginUser = await fetch('http://localhost:4000/api/', {
+            const loginUser = await fetch('http://localhost:3001/api/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,20 +36,29 @@ class Login extends Component {
                 })
             });
             
-            const serverResponse = await loginUser.json();
-            this.handleResponse(serverResponse);
+            const res = await loginUser.json();
+            this.handleResponse(res);
         } catch(err) {
-            console.log(`Login Fetch: ${err}`);
+            console.log(err);
+            this.setState({
+                serverMsg: {
+                    status: 'Something went wrong!'
+                }
+            });
         }
     }
 
-    handleResponse = (resp) => {
+    handleResponse = (res) => {
         this.resetInputFields();
-        if(resp[0] === 'success') {
-            this.props.history.push("/protected");
+        if(res.status === 'success') {
+            window.localStorage.setItem('token', res.token);
+            this.props.handleAuth(true);
+            this.props.history.push("/home");
         } else {
             this.setState({
-                serverMsg: resp
+                serverMsg: {
+                    status: res.status
+                }
             });
         }
     }
@@ -68,11 +79,7 @@ class Login extends Component {
         return (
             <div className="Login">
                 <h2>Login</h2>
-                {
-                    this.state.serverMsg.map((data, index) => {
-                        return <p key={index}>{data}</p>
-                    })
-                }
+                <p>{this.state.serverMsg.status}</p>
                 <form onSubmit={this.handleSubmit}>
                     <p>E-mail:</p>
                     <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} />

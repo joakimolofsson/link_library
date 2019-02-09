@@ -1,12 +1,12 @@
 import { check, validationResult } from 'express-validator/check';
 import UserModel from '../models/user';
 
-const inputErrorList = (req) => {
+const handleInputErrors = (req) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errorList = [];
         for(let errorMsg in errors.array()) {
-            errorList.push(errors.array()[errorMsg].msg);
+            errorList.push(errors.array()[errorMsg]);
         }
         return errorList;
     } else {
@@ -52,4 +52,4 @@ const registerInputValidation = [
         .isLength({min: 6, max: 20}).withMessage('Your password is too long or too short!')
 ];
 
-export default { inputErrorList, loginInputValidation, registerInputValidation }
+export default { handleInputErrors, loginInputValidation, registerInputValidation }

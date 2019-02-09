@@ -1,23 +1,43 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import './App.css';
-
 import Nav from './components/Nav';
 import Login from './components/Login';
+import Home from './components/Home';
 import Register from './components/Register';
-import Protected from './components/Protected';
+import UserInfo from './components/UserInfo';
+import ProtectedRoute from './components/ProtectedRoute';
+import NotFound from './components/NotFound';
 
 class App extends Component {
+  state = {
+    auth: false
+  }
+
+  handleAuth = (authState) => {
+    if(authState) {
+      this.setState({
+        auth: true
+      });
+    } else {
+      this.setState({
+        auth: false
+      });
+    }
+  }
+
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Nav />
-          <Route exact path="/" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/protected" component={Protected} />
-        </div>
-      </Router>
+      <div className="App">
+        <Nav />
+        <Switch>
+          <Route exact path="/" render={(props) => <Login {...props} handleAuth={this.handleAuth}/>} />
+          <Route exact path="/register" component={Register} />
+          <ProtectedRoute exact path="/userinfo" component={UserInfo} auth={this.state.auth} handleAuth={this.handleAuth}/>
+          <ProtectedRoute exact path="/home" component={Home} auth={this.state.auth} handleAuth={this.handleAuth}/>
+          <Route component={NotFound} />
+        </Switch>
+      </div>
     );
   }
 }

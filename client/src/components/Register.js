@@ -3,7 +3,9 @@ import './css/Register.css';
 
 class Register extends Component {
     state = {
-        serverMsg: [],
+        serverMsg: {
+            status: ''
+        },
         userInput: {
             firstname: '',
             lastname: '',
@@ -25,7 +27,7 @@ class Register extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const registerUser = await fetch('http://localhost:4000/api/register', {
+            const registerUser = await fetch('http://localhost:3001/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,19 +45,28 @@ class Register extends Component {
             const serverResponse = await registerUser.json();
             this.handleResponse(serverResponse);
         } catch(err) {
-            console.log(`Register Fetch: ${err}`);
+            console.log(err);
+            this.setState({
+                serverMsg: {
+                    status: 'Something went wrong!'
+                }
+            });
         }
     }
 
-    handleResponse = (resp) => {
-        if(resp[0] === 'success') {
+    handleResponse = (res) => {
+        if(res.status === 'success') {
             this.resetInputFields();
             this.setState({
-                serverMsg: ['New User Registered!']
+                serverMsg: {
+                    status: 'New User Registered!'
+                }
             });
         } else {
             this.setState({
-                serverMsg: resp
+                serverMsg: {
+                    status: res.status
+                }
             });
         }
     }
@@ -76,11 +87,7 @@ class Register extends Component {
         return (
             <div className="Register">
                 <h2>Register</h2>
-                {
-                    this.state.serverMsg.map((data, index) => {
-                        return <p key={index}>{data}</p>
-                    })
-                }
+                <p>{this.state.serverMsg.status}</p>
                 <form onSubmit={this.handleSubmit}>
                     <p>Firstname:</p>
                     <input type="text" name="firstname" value={this.state.userInput.firstname} onChange={this.handleChange} />
