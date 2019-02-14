@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-async function verifyToken(req, res, next) {
+const verifyToken = async (req, res, next) => {
     try {
         const userData = await jwt.verify(req.body.token, process.env.JWTSECRET);
-        req.body = userData;
+        req.tokenUserData = userData;
         next();
     } catch(err) {
-        return res.json({status: 'Forbidden'});
+        return res.json({status: 'You are logged out!'});
     }
 }
 

@@ -5,7 +5,7 @@ import Nav from './components/Nav';
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
-import UserInfo from './components/UserInfo';
+import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './components/NotFound';
 
@@ -15,15 +15,9 @@ class App extends Component {
   }
 
   handleAuth = (authState) => {
-    if(authState) {
-      this.setState({
-        auth: true
-      });
-    } else {
-      this.setState({
-        auth: false
-      });
-    }
+    authState ?
+    this.setState({auth: true}) :
+    this.setState({auth: false});
   }
 
   render() {
@@ -33,7 +27,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={(props) => <Login {...props} handleAuth={this.handleAuth}/>} />
           <Route exact path="/register" component={Register} />
-          <ProtectedRoute exact path="/userinfo" component={UserInfo} auth={this.state.auth} handleAuth={this.handleAuth}/>
+          <ProtectedRoute exact path="/profile" component={Profile} auth={this.state.auth} handleAuth={this.handleAuth}/>
           <ProtectedRoute exact path="/home" component={Home} auth={this.state.auth} handleAuth={this.handleAuth}/>
           <Route component={NotFound} />
         </Switch>

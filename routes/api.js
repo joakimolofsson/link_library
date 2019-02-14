@@ -7,6 +7,8 @@ import verifyToken from '../handlers/verifyToken';
 
 const router = express.Router();
 
+//////////
+
 router.post('/', v.loginInputValidation, async (req, res) => {
     const inputErrors = v.handleInputErrors(req);
     if(inputErrors) {
@@ -20,11 +22,11 @@ router.post('/', v.loginInputValidation, async (req, res) => {
             if(loginUser) {
                 const comparePasswords = await bcrypt.compare(req.body.password, loginUser.password);
                 if(comparePasswords) {
-                    const requestToken = await jwt.sign({user: loginUser}, process.env.JWTSECRET, {expiresIn: '30s'});
+                    const token = await jwt.sign({user: loginUser}, process.env.JWTSECRET, {expiresIn: '30min'});
                     console.log(`Login | ${Date()} | ${loginUser.email}`);
                     return res.json({
                         status: 'success',
-                        token: requestToken
+                        token
                     });
                 } else {
                     return res.json({status: 'Wrong e-mail or password!'});
@@ -38,6 +40,8 @@ router.post('/', v.loginInputValidation, async (req, res) => {
         }
     }
 });
+
+//////////
 
 router.post('/register', v.registerInputValidation, async (req, res) => {
     const inputErrors = v.handleInputErrors(req);
@@ -65,12 +69,41 @@ router.post('/register', v.registerInputValidation, async (req, res) => {
     }
 });
 
-router.post('/userinfo', verifyToken, async (req, res) => {
-    const userData = req.body.user;
+//////////
+
+router.post('/profile', verifyToken, async (req, res) => {
+    const profileData = req.tokenUserData.user;
     return res.json({
         status: 'success',
-        userData
+        profileData
     });
+});
+
+router.post('/profile_edit', verifyToken, v.profileEditInputValidation, async (req, res) => {
+    if(req.validateError) {
+        return res.json({status: req.validateError});
+    }
+    return res.json({status: req.body.age});
+
+    /* const inputErrors = v.handleInputErrors(req);
+    if(inputErrors) {
+        return res.json({status: inputErrors[0].msg});
+    } else {
+        try {
+            const profile = await UserModel.findByIdAndUpdate(req.body.id, { firstname: req.body.firstname });
+            const newProfile = await UserModel.findOne({
+                _id: profile.id
+            });
+            const token = await jwt.sign({user: newProfile}, process.env.JWTSECRET, {expiresIn: '30min'});
+            return res.json({
+                status: 'success',
+                token
+            });
+        } catch(err) {
+            console.log(`Failed to update user profile | ${Date()} | ${err}`);
+            return res.json({status: 'Something went wrong!'});
+        }
+    } */
 });
 
 export default router;

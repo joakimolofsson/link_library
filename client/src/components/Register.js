@@ -3,9 +3,7 @@ import './css/Register.css';
 
 class Register extends Component {
     state = {
-        serverMsg: {
-            status: ''
-        },
+        serverMsg: '',
         userInput: {
             firstname: '',
             lastname: '',
@@ -46,28 +44,16 @@ class Register extends Component {
             this.handleResponse(serverResponse);
         } catch(err) {
             console.log(err);
-            this.setState({
-                serverMsg: {
-                    status: 'Something went wrong!'
-                }
-            });
+            this.setState({serverMsg: 'Something went wrong!'});
         }
     }
 
     handleResponse = (res) => {
         if(res.status === 'success') {
             this.resetInputFields();
-            this.setState({
-                serverMsg: {
-                    status: 'New User Registered!'
-                }
-            });
+            this.setState({serverMsg: 'New User Registered!'});
         } else {
-            this.setState({
-                serverMsg: {
-                    status: res.status
-                }
-            });
+            this.setState({serverMsg: res.status});
         }
     }
 
@@ -87,7 +73,7 @@ class Register extends Component {
         return (
             <div className="Register">
                 <h2>Register</h2>
-                <p>{this.state.serverMsg.status}</p>
+                <p>{this.state.serverMsg}</p>
                 <form onSubmit={this.handleSubmit}>
                     <p>Firstname:</p>
                     <input type="text" name="firstname" value={this.state.userInput.firstname} onChange={this.handleChange} />

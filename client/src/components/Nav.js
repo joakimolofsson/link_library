@@ -13,7 +13,7 @@ const Nav = () => {
                     <NavLink to="/register" activeStyle={{color: "red"}}>Register</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/userinfo" activeStyle={{color: "red"}}>User Info</NavLink>
+                    <NavLink to="/profile" activeStyle={{color: "red"}}>Profile</NavLink>
                 </li>
                 <li>
                     <NavLink to="/"activeStyle={{color: "red"}}>Logout</NavLink>

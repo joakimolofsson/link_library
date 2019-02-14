@@ -1,4 +1,5 @@
 import { check, validationResult } from 'express-validator/check';
+import validator from 'validator';
 import UserModel from '../models/user';
 
 const handleInputErrors = (req) => {
@@ -23,11 +24,11 @@ const loginInputValidation = [
 
 const registerInputValidation = [
     check('firstname')
-        .trim().escape()
-        .isLength({min: 1, max: 20}).withMessage('Your firstname is too long or too short!'),
+        .trim()
+        .isLength({min: 2, max: 20}).withMessage('Your firstname is too long or too short!'),
     check('lastname')
-        .trim().escape()
-        .isLength({min: 1, max: 20}).withMessage('Your lastname is too long or too short!'),
+        .trim()
+        .isLength({min: 2, max: 20}).withMessage('Your lastname is too long or too short!'),
     check('age')
         .trim()
         .isInt().withMessage('Your age is not valid!')
@@ -52,4 +53,57 @@ const registerInputValidation = [
         .isLength({min: 6, max: 20}).withMessage('Your password is too long or too short!')
 ];
 
-export default { handleInputErrors, loginInputValidation, registerInputValidation }
+const profileEditInputValidation = async (req, res, next) => {
+    compareInput(req.body, req.tokenUserData.user);
+
+    function compareInput(reqData, tokenData) {
+        const compareKeys = ['firstname', 'lastname', 'age', 'email'];
+        for(let key in reqData) {
+            if(compareKeys.indexOf(key) !== -1 && reqData[key] !== tokenData[key]) {
+                validateNewInput(reqData[key], key);
+            }
+        }
+    }
+    
+    function validateNewInput(val, key) {
+        const trimValue = val.trim();
+        switch(JSON.stringify(key)) {
+
+            case JSON.stringify('firstname'):
+                if(!validator.isLength(trimValue, {min: 2, max: 20})) {
+                    return req.validateError = `Your firstname is too long or too short!`;
+                }
+                return req.body.firstname = trimValue;
+
+            case JSON.stringify('lastname'):
+                if(!validator.isLength(trimValue, {min: 2, max: 20})) {
+                    return req.validateError = `Your lastname is too long or too short!`;
+                }
+                return req.body.lastname = trimValue;
+
+            case JSON.stringify('age'):
+                if(!validator.isInt(trimValue)) {
+                    return req.validateError = 'Your age is not valid!'
+                }
+                if(!validator.isLength(trimValue, {min: 1, max: 3})) {
+                    return req.validateError = `Your age is too long or too short!`;
+                }
+                return req.body.age = trimValue;
+
+            case JSON.stringify('email'):
+                if(!validator.isEmail(val)) {
+                    return req.validateError = 'Your e-mail is not valid!'
+                }
+                if(!validator.isLength(val, {min: 1, max: 40})) {
+                    return req.validateError = `Your e-mail is too long or too short!`;
+                }
+                return req.body.email = val;
+
+            default:
+                break;
+        }
+    }
+    next();
+}
+
+export default {handleInputErrors, loginInputValidation, registerInputValidation, profileEditInputValidation}

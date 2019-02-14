@@ -3,9 +3,7 @@ import './css/Login.css';
 
 class Login extends Component {
     state = {
-        serverMsg: {
-            status: ''
-        },
+        serverMsg: '',
         userInput: {
             email: '',
             password: ''
@@ -40,11 +38,7 @@ class Login extends Component {
             this.handleResponse(res);
         } catch(err) {
             console.log(err);
-            this.setState({
-                serverMsg: {
-                    status: 'Something went wrong!'
-                }
-            });
+            this.setState({serverMsg: 'Something went wrong!'});
         }
     }
 
@@ -55,11 +49,7 @@ class Login extends Component {
             this.props.handleAuth(true);
             this.props.history.push("/home");
         } else {
-            this.setState({
-                serverMsg: {
-                    status: res.status
-                }
-            });
+            this.setState({serverMsg: res.status});
         }
     }
 
@@ -79,7 +69,7 @@ class Login extends Component {
         return (
             <div className="Login">
                 <h2>Login</h2>
-                <p>{this.state.serverMsg.status}</p>
+                <p>{this.state.serverMsg}</p>
                 <form onSubmit={this.handleSubmit}>
                     <p>E-mail:</p>
                     <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} />
