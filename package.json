@@ -27,7 +27,6 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-router": "0.0.1",
-    "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.6",
     "validator": "^10.11.0"

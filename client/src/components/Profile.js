@@ -112,9 +112,9 @@ class Profile extends Component {
                     <p>Age:</p>
                     <input type="text" name="age" value={this.state.profile.age} onChange={this.handleChange} />
                     <p>E-mail:</p>
-                    <input type="text" name="email" value={this.state.profile.email} onChange={this.handleChange} />
+                    <input type="email" name="email" value={this.state.profile.email} onChange={this.handleChange} />
                     <p>Password:</p>
-                    <input type="text" name="password" value={this.state.profile.password} onChange={this.handleChange} />
+                    <input type="password" name="password" value={this.state.profile.password} onChange={this.handleChange} />
                     <br/>
                     <input type="submit" value="Update"/>
                 </form>

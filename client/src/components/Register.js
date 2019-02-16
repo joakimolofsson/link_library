@@ -76,15 +76,15 @@ class Register extends Component {
                 <p>{this.state.serverMsg}</p>
                 <form onSubmit={this.handleSubmit}>
                     <p>Firstname:</p>
-                    <input type="text" name="firstname" value={this.state.userInput.firstname} onChange={this.handleChange} />
+                    <input type="text" name="firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
                     <p>Lastname:</p>
-                    <input type="text" name="lastname" value={this.state.userInput.lastname} onChange={this.handleChange} />
+                    <input type="text" name="lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>
                     <p>Age:</p>
-                    <input type="text" name="age" value={this.state.userInput.age} onChange={this.handleChange} />
+                    <input type="text" name="age" value={this.state.userInput.age} onChange={this.handleChange} required/>
                     <p>E-mail:</p>
-                    <input type="text" name="email" value={this.state.userInput.email} onChange={this.handleChange} />
+                    <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} required/>
                     <p>Password:</p>
-                    <input type="text" name="password" value={this.state.userInput.password} onChange={this.handleChange} />
+                    <input type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} required/>
                     <br/>
                     <input type="submit" value="Register"/>
                 </form>

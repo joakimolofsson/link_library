@@ -72,9 +72,9 @@ class Login extends Component {
                 <p>{this.state.serverMsg}</p>
                 <form onSubmit={this.handleSubmit}>
                     <p>E-mail:</p>
-                    <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} />
+                    <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} required/>
                     <p>Password:</p>
-                    <input type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} />
+                    <input type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} required/>
                     <br/>
                     <input type="submit" value="Login"/>
                 </form>
