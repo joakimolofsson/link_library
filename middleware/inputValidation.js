@@ -12,15 +12,26 @@ const register = async (req, res, next) => {
 }
 
 const profile = async (req, res, next) => {
-    req.inputError = 'profile';
+    const updatedInput = {},
+    compareKeys = ['firstname', 'lastname', 'age', 'email', 'password'];
+    for(let key in req.body) {
+        if(compareKeys.indexOf(key) !== -1 && req.body[key] !== req.tokenUserData.user[key]) {
+            if(key === 'password' && req.body[key] === '') {
+                continue;
+            }
+            updatedInput[key] = req.body[key];
+        }
+    }
+    req.inputError = await inputValidation(updatedInput, 'profile');
+    req.updatedInput = updatedInput;
     next();
 }
 
-const inputValidation = async (requestBody, event) => {
-    const keyNames = Object.keys(requestBody);
+const inputValidation = async (updatedInput, event) => {
+    const keyNames = Object.keys(updatedInput);
     let currentKey = 0;
-    for(let input in requestBody) {
-        const error = await validateInput(requestBody[input], keyNames[currentKey], event);
+    for(let input in updatedInput) {
+        const error = await checkInput(updatedInput[input], keyNames[currentKey], event);
         if(error) {
             return error;
         }
@@ -29,7 +40,7 @@ const inputValidation = async (requestBody, event) => {
     return;
 }
 
-const validateInput = async (val, type, event) => {
+const checkInput = async (val, type, event) => {
     switch(type) {
         case 'firstname':
             const firstname = val.trim();
@@ -44,7 +55,8 @@ const validateInput = async (val, type, event) => {
             }
             break;
         case 'age':
-            const age = val.trim();
+            const valToString = val.toString(),
+            age = valToString.trim();
             if(!validator.isInt(age)) {
                 return 'Your age is not valid!'
             } else if(!validator.isLength(age, {min: 1, max: 3})) {
@@ -54,9 +66,9 @@ const validateInput = async (val, type, event) => {
         case 'email':
             if(!validator.isEmail(val)) {
                 return 'Your e-mail is not valid!';
-            } else if(event === 'register' && !validator.isLength(val, {min: 1, max: 40})) {
+            } else if((event === 'register' || event == 'profile') && !validator.isLength(val, {min: 1, max: 40})) {
                 return 'Your e-mail is too long or too short!';
-            } else if(event === 'register') {
+            } else if(event === 'register' || event == 'profile') {
                 try {
                     const checkEmail = await UserModel.findOne({
                         email: val
@@ -72,67 +84,13 @@ const validateInput = async (val, type, event) => {
         case 'password':
             if(event === 'login' && !validator.isLength(val, {min: 6, max: 20})) {
                 return 'Your password is not valid!';
-            } else if(event === 'register' && !validator.isLength(val, {min: 6, max: 20})) {
+            } else if((event === 'register' || event == 'profile') && !validator.isLength(val, {min: 6, max: 20})) {
                 return 'Your password is too long or too short!';
             }
             break;
         default:
-            console.log('default: ' + val);
             break;
     }
 }
-
-/* const profileEditInputValidation = async (req, res, next) => {
-    compareInput(req.body, req.tokenUserData.user);
-
-    function compareInput(reqData, tokenData) {
-        const compareKeys = ['firstname', 'lastname', 'age', 'email'];
-        for(let key in reqData) {
-            if(compareKeys.indexOf(key) !== -1 && reqData[key] !== tokenData[key]) {
-                validateNewInput(reqData[key], key);
-            }
-        }
-    }
-    
-    function validateNewInput(val, key) {
-        const trimValue = val.trim();
-        switch(JSON.stringify(key)) {
-
-            case JSON.stringify('firstname'):
-                if(!validator.isLength(trimValue, {min: 2, max: 20})) {
-                    return req.validateError = `Your firstname is too long or too short!`;
-                }
-                return req.body.firstname = trimValue;
-
-            case JSON.stringify('lastname'):
-                if(!validator.isLength(trimValue, {min: 2, max: 20})) {
-                    return req.validateError = `Your lastname is too long or too short!`;
-                }
-                return req.body.lastname = trimValue;
-
-            case JSON.stringify('age'):
-                if(!validator.isInt(trimValue)) {
-                    return req.validateError = 'Your age is not valid!'
-                }
-                if(!validator.isLength(trimValue, {min: 1, max: 3})) {
-                    return req.validateError = `Your age is too long or too short!`;
-                }
-                return req.body.age = trimValue;
-
-            case JSON.stringify('email'):
-                if(!validator.isEmail(val)) {
-                    return req.validateError = 'Your e-mail is not valid!'
-                }
-                if(!validator.isLength(val, {min: 1, max: 40})) {
-                    return req.validateError = `Your e-mail is too long or too short!`;
-                }
-                return req.body.email = val;
-
-            default:
-                break;
-        }
-    }
-    next();
-} */
 
 export default {login, register, profile}

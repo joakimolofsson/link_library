@@ -78,11 +78,27 @@ router.post('/profile', verifyToken, async (req, res) => {
 });
 
 router.post('/profile_edit', verifyToken, inputValidation.profile, async (req, res) => {
-    console.log(req.body);
     if(req.inputError) {
         return res.json({status: req.inputError});
     } else {
-        return res.json({status: 'ok'});
+        if(Object.keys(req.updatedInput).length !== 0) {
+            if(req.updatedInput.password) {
+                const hashedPassword = await bcrypt.hash(req.updatedInput.password, 10);
+                req.updatedInput.password = hashedPassword;
+            }
+            try {
+                await UserModel.findOneAndUpdate({_id: req.body.id}, req.updatedInput, {upsert: true});
+                const newProfile = await UserModel.findOne({_id: req.body.id}),
+                token = await jwt.sign({user: newProfile}, process.env.JWTSECRET, {expiresIn: '30min'});
+                return res.json({
+                    status: 'success',
+                    token
+                });
+            } catch(err) {
+                console.log(`Failed to update profile | ${Date()} | ${err}`);
+                return res.json({status: 'Something went wrong!'});
+            }
+        }
     }
 });
 
