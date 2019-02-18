@@ -68,16 +68,21 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
-                <h2>Login</h2>
-                <p>{this.state.serverMsg}</p>
-                <form onSubmit={this.handleSubmit}>
-                    <p>E-mail:</p>
-                    <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} required/>
-                    <p>Password:</p>
-                    <input type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} required/>
-                    <br/>
-                    <input type="submit" value="Login"/>
-                </form>
+                <div className="container">
+                    <h2>MERN Login</h2>
+                    <p className="message">{this.state.serverMsg}</p>
+                    <form className="form" onSubmit={this.handleSubmit}>
+                        <p>E-mail</p>
+                        <input className="inputField" type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} required/>
+                        <p>Password</p>
+                        <input className="inputField" type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} required/>
+                        <input type="submit" value="Log In"/>
+                        <div className="options">
+                            <p onClick={() => {this.props.history.push("/register")}}>Sign up</p>
+                            <p>Forgot password</p>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }

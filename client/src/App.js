@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import './App.css';
 import Nav from './components/Nav';
 import Login from './components/Login';
@@ -20,10 +20,17 @@ class App extends Component {
     this.setState({auth: false});
   }
 
+  handleLogout = (logoutState) => {
+    if(logoutState) {
+      window.localStorage.removeItem('token');
+      this.setState({auth: false});
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <Nav />
+        {this.state.auth && <Nav handleLogout={this.handleLogout}/>}
         <Switch>
           <Route exact path="/" render={(props) => <Login {...props} handleAuth={this.handleAuth}/>} />
           <Route exact path="/register" component={Register} />
