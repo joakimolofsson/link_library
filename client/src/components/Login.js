@@ -68,20 +68,17 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
-                <div className="container">
-                    <h2>MERN Login</h2>
-                    <p className="message">{this.state.serverMsg}</p>
-                    <form className="form" onSubmit={this.handleSubmit}>
-                        <p>E-mail</p>
-                        <input className="inputField" type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} required/>
-                        <p>Password</p>
-                        <input className="inputField" type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} required/>
-                        <input type="submit" value="Log In"/>
-                        <div className="options">
-                            <p onClick={() => {this.props.history.push("/register")}}>Sign up</p>
-                            <p>Forgot password</p>
-                        </div>
-                    </form>
+                <h1>Share a Link</h1>
+                <p className="message">{this.state.serverMsg}</p>
+                <form className="form" onSubmit={this.handleSubmit}>
+                    <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
+                    <input className="inputField lastInputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
+                    <p className="option firstOption">Forgot password?</p>
+                    <input type="submit" value="Log In"/>
+                </form>
+                <div className="optionContainer">
+                    <p className="option">Don't have an account?</p>
+                    <p className="option lastOption" onClick={() => {this.props.history.push("/register")}}>Sign up!</p>
                 </div>
             </div>
         );

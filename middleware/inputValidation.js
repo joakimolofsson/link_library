@@ -27,11 +27,11 @@ const profile = async (req, res, next) => {
     next();
 }
 
-const inputValidation = async (updatedInput, event) => {
-    const keyNames = Object.keys(updatedInput);
+const inputValidation = async (reqBody, event) => {
+    const keyNames = Object.keys(reqBody);
     let currentKey = 0;
-    for(let input in updatedInput) {
-        const error = await checkInput(updatedInput[input], keyNames[currentKey], event);
+    for(let value in reqBody) {
+        const error = await checkInput(reqBody[value], keyNames[currentKey], event);
         if(error) {
             return error;
         }

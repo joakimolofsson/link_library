@@ -1,3 +1,88 @@
 .Register {
-    margin-left: 10px;
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+.Register h1 {
+    text-align: center;
+    margin-top: 32px;
+    color: rgb(0, 132, 255);
+}
+
+.Register .message {
+    text-align: center;
+    color: red;
+    margin: 5px auto;
+    height: 18px;
+}
+
+.Register .success {
+    color: green;
+}
+
+.Register .form {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.Register .inputField {
+    width: 100%;
+    font-size: 17px;
+    border: none;
+    border-bottom: 2px solid rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.Register .lastInputField {
+    margin-bottom: 0px;
+}
+
+.Register .inputField::placeholder {
+    color:  rgba(0,0,0,0.3);
+}
+
+.Register .inputField:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(0, 132, 255);
+    transition: .5s all;
+}
+
+.Register input[type="submit"] {
+    width: 100%;
+    margin-top: 20px;
+    height: 30px;
+    border: none;
+    background: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.5);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Register input[type="submit"]:hover {
+    background: rgb(0, 132, 255);
+    color: white;
+    transition: .5s all;
+}
+
+.Register input[type="submit"]:focus {
+    outline: none
+}
+
+.Register .option {
+    font-size: 14px;
+    color: rgba(0,0,0,0.5);
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 50px;
+    cursor: pointer;
+}
+
+.Register .option:hover {
+    color: rgb(0, 132, 255);
 }

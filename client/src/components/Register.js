@@ -4,12 +4,14 @@ import './css/Register.css';
 class Register extends Component {
     state = {
         serverMsg: '',
+        success: false,
         userInput: {
             firstname: '',
             lastname: '',
             age: '',
             email: '',
-            password: ''
+            password: '',
+            confimPassword: ''
         }
     }
 
@@ -22,38 +24,57 @@ class Register extends Component {
         });
     }
 
+    handleConfirmPassword = () => {
+        const password = this.state.userInput.password;
+        const confirmPassword = this.state.userInput.confimPassword;
+        if(password !== confirmPassword) {
+            return false;
+        }
+        return true;
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const registerUser = await fetch('http://localhost:3001/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    firstname: this.state.userInput.firstname,
-                    lastname: this.state.userInput.lastname,
-                    age: this.state.userInput.age,
-                    email: this.state.userInput.email,
-                    password: this.state.userInput.password
-                })
-            });
-            
-            const serverResponse = await registerUser.json();
-            this.handleResponse(serverResponse);
-        } catch(err) {
-            console.log(err);
-            this.setState({serverMsg: 'Something went wrong!'});
+        if(this.handleConfirmPassword()) {
+            try {
+                const registerUser = await fetch('http://localhost:3001/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        firstname: this.state.userInput.firstname,
+                        lastname: this.state.userInput.lastname,
+                        age: this.state.userInput.age,
+                        email: this.state.userInput.email,
+                        password: this.state.userInput.password
+                    })
+                });
+                
+                const res = await registerUser.json();
+                this.handleResponse(res);
+            } catch(err) {
+                console.log(err);
+                this.setState({serverMsg: 'Something went wrong!'});
+            }
+        } else {
+            this.setState({serverMsg: 'Passwords doesn\'t match!'});
         }
     }
 
     handleResponse = (res) => {
         if(res.status === 'success') {
             this.resetInputFields();
-            this.setState({serverMsg: 'New User Registered!'});
+            this.setState({
+                serverMsg: 'New User Registered!',
+                success: true
+            });
         } else {
-            this.setState({serverMsg: res.status});
+            this.setState({
+                serverMsg: res.status,
+                success: false
+            });
         }
     }
 
@@ -70,24 +91,21 @@ class Register extends Component {
     }
 
     render() {
+        const success = this.state.success ? 'success' : '';
         return (
             <div className="Register">
-                <h2>Register</h2>
-                <p>{this.state.serverMsg}</p>
-                <form onSubmit={this.handleSubmit}>
-                    <p>Firstname:</p>
-                    <input type="text" name="firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
-                    <p>Lastname:</p>
-                    <input type="text" name="lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>
-                    <p>Age:</p>
-                    <input type="text" name="age" value={this.state.userInput.age} onChange={this.handleChange} required/>
-                    <p>E-mail:</p>
-                    <input type="email" name="email" value={this.state.userInput.email} onChange={this.handleChange} required/>
-                    <p>Password:</p>
-                    <input type="password" name="password" value={this.state.userInput.password} onChange={this.handleChange} required/>
-                    <br/>
-                    <input type="submit" value="Register"/>
+                <h1>Share a Link</h1>
+                <p className={`message ${success}`}>{this.state.serverMsg}</p>
+                <form className="form" onSubmit={this.handleSubmit}>
+                    <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
+                    <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>
+                    <input className="inputField" type="text" name="age" placeholder="Age" value={this.state.userInput.age} onChange={this.handleChange} required/>
+                    <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
+                    <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
+                    <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.userInput.confimPassword} onChange={this.handleChange} required/>
+                    <input type="submit" value="Sign up!"/>
                 </form>
+                <p className="option" onClick={() => {this.props.history.push("/")}}>Back</p>
             </div>
         );
     }

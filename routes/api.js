@@ -69,6 +69,21 @@ router.post('/register', inputValidation.register, async (req, res) => {
 
 //////////
 
+router.get('/nav', async(req, res) => {
+    try {
+        const allMembers = await UserModel.find({});
+        return res.json({
+            status: 'success',
+            allMembers: allMembers.length
+        });
+    } catch(err) {
+        console.log(`Failed to get nav data | ${Date()} | ${err}`);
+        return res.json({status: 'Something went wrong!'});
+    }
+});
+
+//////////
+
 router.post('/profile', verifyToken, async (req, res) => {
     const profileData = req.tokenUserData.user;
     return res.json({

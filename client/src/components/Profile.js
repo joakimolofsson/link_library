@@ -14,11 +14,11 @@ class Profile extends Component {
         }
     }
 
-    componentDidMount() {
-        this.requestProfileData();
+    componentDidMount = () => {
+        this.handleProfileData();
     }
 
-    requestProfileData = async () => {
+    handleProfileData = async () => {
         try {
             const getProfile = await fetch('http://localhost:3001/api/profile', {
                 method: 'POST',

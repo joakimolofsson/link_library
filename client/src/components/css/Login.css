@@ -1,12 +1,7 @@
-.Login {}
-
-.Login .container {
+.Login {
     width: 300px;
     height: 300px;
     background: white;
-    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 10px;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -15,15 +10,16 @@
     margin: auto;
 }
 
-.Login h2 {
+.Login h1 {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 32px;
+    color: rgb(0, 132, 255);
 }
 
 .Login .message {
     text-align: center;
     color: red;
-    margin: 10px auto;
+    margin: 5px auto;
     height: 18px;
 }
 
@@ -34,27 +30,40 @@
 
 .Login .inputField {
     width: 100%;
+    font-size: 17px;
     border: none;
-    border-bottom: 2px solid rgba(0,0,0,0.1);
-    margin-bottom: 15px;
+    border-bottom: 2px solid lightgrey;
+    margin-bottom: 20px;
+}
+
+.Login .lastInputField {
+    margin-bottom: 0px;
+}
+
+.Login .inputField::placeholder {
+    color:  lightgrey;
 }
 
 .Login .inputField:focus {
     outline: none;
-    border-bottom: 2px solid rgba(0,0,0,0.2);
+    border-bottom: 2px solid rgb(0, 132, 255);
     transition: .5s all;
 }
 
 .Login input[type="submit"] {
     width: 100%;
+    margin-top: 15px;
     height: 30px;
     border: none;
-    background: rgba(0,0,0,0.1);
+    background: lightgrey;
+    color: black;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .Login input[type="submit"]:hover {
-    background: rgba(0,0,0,0.2);
+    background: rgb(0, 132, 255);
+    color: white;
     transition: .5s all;
 }
 
@@ -62,21 +71,34 @@
     outline: none
 }
 
-.Login .options {
-    width: 100%;
-    margin-top: 10px;
-    font-size: 14px;
+.Login .optionContainer {
+    text-align: center;
+    margin-top: 50px;
 }
 
-.Login .options p {
+.Login .option {
+    font-size: 14px;
+    color: grey;
     display: inline-block;
 }
 
-.Login .options p:hover {
-    color: rgba(0,0,0,0.5);
+.Login .firstOption {
+    margin-top: 7px;
+    float: right;
     cursor: pointer;
+    text-decoration: underline;
 }
 
-.Login .options p:last-child {
-    float: right;
+.Login .firstOption:hover {
+    color: rgb(0, 132, 255);
+}
+
+.Login .lastOption {
+    margin-left: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.Login .lastOption:hover {
+    color: rgb(0, 132, 255);
 }

@@ -1,10 +1,171 @@
 .Nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
     width: 100%;
-    margin-bottom: 10px;
-    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.2);
+    padding: 10px 10px 7px 10px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    background: white;
+    transition: .5s top;
 }
 
-.Nav li {
+.showLinks {
+    top: 66px;
+    transition: .5s top;
+}
+
+.Nav h1 {
     display: inline-block;
-    margin: 5px 10px;
+    color: rgb(0, 132, 255);
+}
+
+.Nav .infoContainer {
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+
+
+.Nav .hamBarContainer {
+    position: relative;
+    float: right;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+.Nav .hamBarContainer .hamBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgb(0, 132, 255);
+}
+
+.Nav .hamBarContainer .topClose {
+    top: 13px;
+    transform: rotate(45deg);
+    animation: topClose .5s forwards;
+}
+@keyframes topClose {
+    50% {
+        top: 13px;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 0px;
+        transform: rotate(0deg);
+    }
+}
+
+.Nav .hamBarContainer .middleClose {
+    top: 13px;
+    opacity: 0;
+    animation: middleClose .5s forwards;
+}
+@keyframes middleClose {
+    50% {
+        opacity: 0;
+    }
+    51% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.Nav .hamBarContainer .bottomClose {
+    top: 13px;
+    transform: rotate(-45deg);
+    animation: bottomClose .5s forwards;
+}
+@keyframes bottomClose {
+    50% {
+        top: 13px;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 26px;
+        transform: rotate(0deg);
+    }
+}
+
+.Nav .hamBarContainer .topOpen {
+    top: 0;
+    animation: topOpen .5s forwards;
+}
+@keyframes topOpen {
+    50% {
+        top: 13px;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 13px;
+        transform: rotate(45deg);
+    }
+}
+
+.Nav .hamBarContainer .middleOpen {
+    top: 13px;
+    animation: middleOpen .5s forwards;
+}
+@keyframes middleOpen {
+    50% {
+        opacity: 1;
+    }
+    51% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.Nav .hamBarContainer .bottomOpen {
+    top: 26px;
+    animation: bottomOpen .5s forwards;
+}
+@keyframes bottomOpen {
+    50% {
+        top: 13px;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 13px;
+        transform: rotate(-45deg);
+    }
+}
+
+
+
+.Nav .linksContainer {
+    position: fixed;
+    top: -66px;
+    right: 0;
+    width: 100%;
+    height: 66px;
+    background: rgb(0, 132, 255);
+    text-align: center;
+    transition: .5s top;
+}
+
+.Nav .showLinks {
+    top: 0;
+}
+
+.Nav .linksContainer a {
+    text-decoration: none;
+    color: white;
+    padding: 25px 5%;
+    line-height: 66px;
+}
+
+.Nav .linksContainer a:hover {
+    text-decoration: underline;
+    background: white;
+    color: rgb(0, 132, 255);
 }
