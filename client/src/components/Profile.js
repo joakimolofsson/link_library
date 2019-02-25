@@ -4,13 +4,15 @@ import './css/Profile.css';
 class Profile extends Component {
     state = {
         serverMsg: '',
+        success: false,
         profile: {
             id: '',
             firstname: '',
             lastname: '',
             age: '',
             email: '',
-            password: ''
+            password: '',
+            confimPassword: ''
         }
     }
 
@@ -39,7 +41,8 @@ class Profile extends Component {
                         lastname: res.profileData.lastname,
                         age: res.profileData.age,
                         email: res.profileData.email,
-                        password: ''
+                        password: '',
+                        confimPassword: ''
                     }                 
                 });
             } else {
@@ -61,61 +64,75 @@ class Profile extends Component {
         });
     }
 
+    handleConfirmPassword = () => {
+        const password = this.state.profile.password;
+        const confirmPassword = this.state.profile.confimPassword;
+        if(password !== confirmPassword) {
+            return false;
+        }
+        return true;
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const updateProfile = await fetch('http://localhost:3001/api/profile_edit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: this.state.profile.id,
-                    firstname: this.state.profile.firstname,
-                    lastname: this.state.profile.lastname,
-                    age: this.state.profile.age,
-                    email: this.state.profile.email,
-                    password: this.state.profile.password,
-                    token: window.localStorage.getItem('token')
-                })
-            });
+        if(this.handleConfirmPassword()) {
+            try {
+                const updateProfile = await fetch('http://localhost:3001/api/profile_edit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: this.state.profile.id,
+                        firstname: this.state.profile.firstname,
+                        lastname: this.state.profile.lastname,
+                        age: this.state.profile.age,
+                        email: this.state.profile.email,
+                        password: this.state.profile.password,
+                        token: window.localStorage.getItem('token')
+                    })
+                });
 
-            const res = await updateProfile.json();
-            this.handleResponse(res);
-        } catch(err) {
-            console.log(err);
-            this.setState({serverMsg: 'Something went wrong!'});
+                const res = await updateProfile.json();
+                this.handleResponse(res);
+            } catch(err) {
+                console.log(err);
+                this.setState({serverMsg: 'Something went wrong!'});
+            }
+        } else {
+            this.setState({serverMsg: 'Passwords doesn\'t match!'});
         }
     }
 
     handleResponse = (res) => {
         if(res.status === 'success') {
             window.localStorage.setItem('token', res.token);
-            this.setState({serverMsg: 'Profile updated!'});
+            this.setState({
+                serverMsg: 'Profile updated!',
+                success: true
+            });
         } else {
-            this.setState({serverMsg: res.status});
+            this.setState({
+                serverMsg: res.status,
+                success: false
+            });
         }
     }
 
     render() {
+        const success = this.state.success ? 'success' : '';
         return (
             <div className="Profile">
-                {
-                    <p>{this.state.serverMsg}</p>
-                }
-                <form onSubmit={this.handleSubmit}>
-                    <p>Firstname:</p>
-                    <input type="text" name="firstname" value={this.state.profile.firstname} onChange={this.handleChange} />
-                    <p>Lastname:</p>
-                    <input type="text" name="lastname" value={this.state.profile.lastname} onChange={this.handleChange} />
-                    <p>Age:</p>
-                    <input type="text" name="age" value={this.state.profile.age} onChange={this.handleChange} />
-                    <p>E-mail:</p>
-                    <input type="email" name="email" value={this.state.profile.email} onChange={this.handleChange} />
-                    <p>Password:</p>
-                    <input type="password" name="password" value={this.state.profile.password} onChange={this.handleChange} />
-                    <br/>
+                <h1>Your Profile</h1>
+                <p className={`message ${success}`}>{this.state.serverMsg}</p>
+                <form className="form" onSubmit={this.handleSubmit}>
+                    <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.profile.firstname} onChange={this.handleChange} required/>
+                    <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.profile.lastname} onChange={this.handleChange} required/>
+                    <input className="inputField" type="text" name="age" placeholder="Age" value={this.state.profile.age} onChange={this.handleChange} required/>
+                    <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.profile.email} onChange={this.handleChange} required/>
+                    <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.profile.password} onChange={this.handleChange} />
+                    <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.profile.confimPassword} onChange={this.handleChange} />
                     <input type="submit" value="Update"/>
                 </form>
             </div>

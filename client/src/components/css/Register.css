@@ -35,7 +35,7 @@
     width: 100%;
     font-size: 17px;
     border: none;
-    border-bottom: 2px solid rgba(0,0,0,0.2);
+    border-bottom: 2px solid lightgrey;
     margin-bottom: 20px;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .Register .inputField::placeholder {
-    color:  rgba(0,0,0,0.3);
+    color:  lightgrey;
 }
 
 .Register .inputField:focus {
@@ -58,8 +58,8 @@
     margin-top: 20px;
     height: 30px;
     border: none;
-    background: rgba(0,0,0,0.1);
-    color: rgba(0,0,0,0.5);
+    background: lightgrey;
+    color: black;
     font-size: 16px;
     cursor: pointer;
 }
@@ -76,7 +76,7 @@
 
 .Register .option {
     font-size: 14px;
-    color: rgba(0,0,0,0.5);
+    color: grey;
     text-align: center;
     text-decoration: underline;
     margin-top: 50px;

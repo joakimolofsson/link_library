@@ -69,7 +69,7 @@ router.post('/register', inputValidation.register, async (req, res) => {
 
 //////////
 
-router.get('/nav', async(req, res) => {
+router.post('/nav', verifyToken, async(req, res) => {
     try {
         const allMembers = await UserModel.find({});
         return res.json({
@@ -113,6 +113,8 @@ router.post('/profile_edit', verifyToken, inputValidation.profile, async (req, r
                 console.log(`Failed to update profile | ${Date()} | ${err}`);
                 return res.json({status: 'Something went wrong!'});
             }
+        } else {
+            return res.json({status: 'Nothing to update!'});
         }
     }
 });

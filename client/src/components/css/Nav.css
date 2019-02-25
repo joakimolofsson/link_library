@@ -5,9 +5,10 @@
     z-index: 10;
     width: 100%;
     padding: 10px 10px 7px 10px;
-    border-bottom: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 2px solid lightgrey;
     background: white;
     transition: .5s top;
+    overflow: hidden;
 }
 
 .showLinks {
@@ -36,107 +37,125 @@
     cursor: pointer;
 }
 
-.Nav .hamBarContainer .hamBar {
+.Nav .hamBarContainer .hamBarClosed {
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgb(0, 132, 255);
+    transform: rotate(45deg);
+    animation: hamBarClosed .5s forwards;
+}
+@keyframes hamBarClosed {
+    50% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+.Nav .hamBarContainer .hamBarClosed::before {
+    content: '';    
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 6px;
     background: rgb(0, 132, 255);
+    transform: rotate(-90deg);
+    animation: hamBarClosedBefore .5s forwards;
 }
-
-.Nav .hamBarContainer .topClose {
-    top: 13px;
-    transform: rotate(45deg);
-    animation: topClose .5s forwards;
-}
-@keyframes topClose {
+@keyframes hamBarClosedBefore {
     50% {
-        top: 13px;
         transform: rotate(0deg);
+        top: 0;
     }
     100% {
-        top: 0px;
         transform: rotate(0deg);
+        top: -13px;
     }
 }
-
-.Nav .hamBarContainer .middleClose {
-    top: 13px;
-    opacity: 0;
-    animation: middleClose .5s forwards;
-}
-@keyframes middleClose {
-    50% {
-        opacity: 0;
-    }
-    51% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-.Nav .hamBarContainer .bottomClose {
-    top: 13px;
-    transform: rotate(-45deg);
-    animation: bottomClose .5s forwards;
-}
-@keyframes bottomClose {
-    50% {
-        top: 13px;
-        transform: rotate(0deg);
-    }
-    100% {
-        top: 26px;
-        transform: rotate(0deg);
-    }
-}
-
-.Nav .hamBarContainer .topOpen {
+.Nav .hamBarContainer .hamBarClosed::after {
+    content: '';
+    position: absolute;
     top: 0;
-    animation: topOpen .5s forwards;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgb(0, 132, 255);
+    transform: rotate(-90deg);
+    animation: hamBarClosedAfter .5s forwards;
 }
-@keyframes topOpen {
+@keyframes hamBarClosedAfter {
     50% {
+        transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        transform: rotate(0deg);
         top: 13px;
+    }
+}
+
+.Nav .hamBarContainer .hamBarOpen {
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgb(0, 132, 255);
+    transform: rotate(0deg);
+    animation: hamBarOpen .5s forwards;
+}
+@keyframes hamBarOpen {
+    50% {
         transform: rotate(0deg);
     }
     100% {
-        top: 13px;
         transform: rotate(45deg);
     }
 }
-
-.Nav .hamBarContainer .middleOpen {
-    top: 13px;
-    animation: middleOpen .5s forwards;
+.Nav .hamBarContainer .hamBarOpen::before {
+    content: '';    
+    position: absolute;
+    top: -13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgb(0, 132, 255);
+    transform: rotate(0deg);
+    animation: hamBarOpenBefore .5s forwards;
 }
-@keyframes middleOpen {
+@keyframes hamBarOpenBefore {
     50% {
-        opacity: 1;
-    }
-    51% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-.Nav .hamBarContainer .bottomOpen {
-    top: 26px;
-    animation: bottomOpen .5s forwards;
-}
-@keyframes bottomOpen {
-    50% {
-        top: 13px;
         transform: rotate(0deg);
+        top: 0;
     }
     100% {
-        top: 13px;
-        transform: rotate(-45deg);
+        transform: rotate(-90deg);
+        top: 0;
+    }
+}
+.Nav .hamBarContainer .hamBarOpen::after {
+    content: '';    
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgb(0, 132, 255);
+    transform: rotate(0deg);
+    animation: hamBarOpenAfter .5s forwards;
+}
+@keyframes hamBarOpenAfter {
+    50% {
+        transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        transform: rotate(-90deg);
+        top: 0;
     }
 }
 

@@ -15,11 +15,14 @@ class Nav extends Component {
     handleAllMembers = async () => {
         try {
             const requstMembers = await fetch('http://localhost:3001/api/nav', {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    token: window.localStorage.getItem('token')
+                })
             });
             const res = await requstMembers.json();
             this.handleResponse(res);
@@ -50,21 +53,19 @@ class Nav extends Component {
                 <h1>Share a Link</h1>
                 <div className="infoContainer">
                     <p>Members: {this.state.members}</p>
-                    <p>Links shared: 0</p>
+                    <p>Shared links: 0</p>
                 </div>
                 
                 <div className="hamBarContainer" onClick={this.handleShowLinks}>
-                    <div className={`hamBar ${this.state.showLinks ? 'topOpen' : 'topClose'}`}></div>
-                    <div className={`hamBar ${this.state.showLinks ? 'middleOpen' : 'middleClose'}`}></div>
-                    <div className={`hamBar ${this.state.showLinks ? 'bottomOpen' : 'bottomClose'}`}></div>
+                    <div className={this.state.showLinks ? 'hamBarOpen' : 'hamBarClosed'}></div>
                 </div>
     
                 <div className={`linksContainer ${showLinks}`}>
                     <Link to="/home" onClick={this.handleShowLinks}>Home</Link>
-                    <Link to="/home" onClick={this.handleShowLinks}>Post</Link>
+                    <Link to="/post" onClick={this.handleShowLinks}>Share a Link</Link>
                     <Link to="/profile" onClick={this.handleShowLinks}>Profile</Link>
                     <Link to="/" onClick={() => {this.props.handleLogout(true)}}>Log out</Link>
-                </div>           
+                </div>
             </div>
         );
     }

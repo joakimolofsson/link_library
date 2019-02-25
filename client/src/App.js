@@ -4,6 +4,7 @@ import './App.css';
 import Nav from './components/Nav';
 import Login from './components/Login';
 import Home from './components/Home';
+import Post from './components/Post';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -34,8 +35,9 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={(props) => <Login {...props} handleAuth={this.handleAuth}/>} />
           <Route exact path="/register" component={Register} />
-          <ProtectedRoute exact path="/profile" component={Profile} auth={this.state.auth} handleAuth={this.handleAuth}/>
           <ProtectedRoute exact path="/home" component={Home} auth={this.state.auth} handleAuth={this.handleAuth}/>
+          <ProtectedRoute exact path="/post" component={Post} auth={this.state.auth} handleAuth={this.handleAuth}/>
+          <ProtectedRoute exact path="/profile" component={Profile} auth={this.state.auth} handleAuth={this.handleAuth}/>
           <Route component={NotFound} />
         </Switch>
       </div>
