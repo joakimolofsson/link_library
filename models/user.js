@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema(
         }
     },
     {
-        collection: 'app_collection'
+        collection: 'user_coll'
     }
 );
 

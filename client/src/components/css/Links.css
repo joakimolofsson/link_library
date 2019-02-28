@@ -1,0 +1,19 @@
+.Links {
+    margin: 90px 0 0 10px;
+}
+
+.Links h1 {
+    text-align: center;
+    color: rgb(0, 132, 255);
+}
+
+.Links .message {
+    text-align: center;
+    color: red;
+    margin: 5px auto;
+    height: 18px;
+}
+
+.Links .success {
+    color: green;
+}

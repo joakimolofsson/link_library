@@ -6,7 +6,6 @@ class Profile extends Component {
         serverMsg: '',
         success: false,
         profile: {
-            id: '',
             firstname: '',
             lastname: '',
             age: '',
@@ -36,7 +35,6 @@ class Profile extends Component {
             if(res.status === 'success') {
                 this.setState({
                     profile: {
-                        id: res.profileData._id,
                         firstname: res.profileData.firstname,
                         lastname: res.profileData.lastname,
                         age: res.profileData.age,
@@ -84,7 +82,6 @@ class Profile extends Component {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        id: this.state.profile.id,
                         firstname: this.state.profile.firstname,
                         lastname: this.state.profile.lastname,
                         age: this.state.profile.age,

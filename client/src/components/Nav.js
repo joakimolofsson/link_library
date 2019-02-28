@@ -61,8 +61,8 @@ class Nav extends Component {
                 </div>
     
                 <div className={`linksContainer ${showLinks}`}>
-                    <Link to="/home" onClick={this.handleShowLinks}>Home</Link>
-                    <Link to="/post" onClick={this.handleShowLinks}>Share a Link</Link>
+                    <Link to="/links" onClick={this.handleShowLinks}>Links</Link>
+                    <Link to="/sharelink" onClick={this.handleShowLinks}>Share a Link</Link>
                     <Link to="/profile" onClick={this.handleShowLinks}>Profile</Link>
                     <Link to="/" onClick={() => {this.props.handleLogout(true)}}>Log out</Link>
                 </div>

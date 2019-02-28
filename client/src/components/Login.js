@@ -47,7 +47,7 @@ class Login extends Component {
         if(res.status === 'success') {
             window.localStorage.setItem('token', res.token);
             this.props.handleAuth(true);
-            this.props.history.push("/home");
+            this.props.history.push("/links");
         } else {
             this.setState({serverMsg: res.status});
         }

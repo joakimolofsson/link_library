@@ -11,6 +11,11 @@ const register = async (req, res, next) => {
     next();
 }
 
+const shareLink = async (req, res, next) => {
+    req.inputError = await inputValidation(req.body, 'shareLink');
+    next();
+}
+
 const profile = async (req, res, next) => {
     const updatedInput = {},
     compareKeys = ['firstname', 'lastname', 'age', 'email', 'password'];
@@ -26,6 +31,8 @@ const profile = async (req, res, next) => {
     req.updatedInput = updatedInput;
     next();
 }
+
+//////////
 
 const inputValidation = async (reqBody, event) => {
     const keyNames = Object.keys(reqBody);
@@ -88,9 +95,23 @@ const checkInput = async (val, type, event) => {
                 return 'Your password is too long or too short!';
             }
             break;
+        case 'link':
+            const link = val.trim();
+            if(!validator.isLength(link, {min: 1, max: 100})) {
+                return 'Your link is too long or too short!';
+            } else if(!validator.isURL(link)) {
+                return 'Invalid link!';
+            }
+            break;
+        case 'description':
+            const description = val.trim();
+            if(!validator.isLength(description, {min: 1, max: 150})) {
+                return 'Your description is too long or too short!';
+            }
+            break;
         default:
             break;
     }
 }
 
-export default {login, register, profile}
+export default {login, register, profile, shareLink}
