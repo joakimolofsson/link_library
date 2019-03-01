@@ -1,31 +1,31 @@
-.ShareLink {
+.AddLink {
     width: 100%;
     height: 350px;
     margin: 90px auto 0 auto;
 }
 
-.ShareLink h1 {
+.AddLink h1 {
     text-align: center;
     color: rgb(0, 132, 255);
 }
 
-.ShareLink .message {
+.AddLink .message {
     text-align: center;
     color: red;
     margin: 5px auto;
     height: 18px;
 }
 
-.ShareLink .success {
+.AddLink .success {
     color: green;
 }
 
-.ShareLink .form {
+.AddLink .form {
     width: 400px;
     margin: 0 auto;
 }
 
-.ShareLink .inputField {
+.AddLink .inputField {
     width: 100%;
     font-size: 16px;
     border: none;
@@ -33,34 +33,34 @@
     margin-bottom: 20px;
 }
 
-.ShareLink .inputField::placeholder {
+.AddLink .inputField::placeholder {
     color:  lightgrey
 }
 
-.ShareLink .inputField:focus {
+.AddLink .inputField:focus {
     outline: none;
     border-bottom: 2px solid rgb(0, 132, 255);
     transition: .5s all;
 }
 
-.ShareLink textarea {
+.AddLink textarea {
     border: 2px solid lightgrey;
     font-size: 16px;
     resize: none;
     overflow: auto;
 }
 
-.ShareLink textarea::placeholder {
+.AddLink textarea::placeholder {
     color:  lightgrey
 }
 
-.ShareLink textarea:focus {
+.AddLink textarea:focus {
     outline: none;
     border-bottom: 2px solid rgb(0, 132, 255);
     transition: .5s all;
 }
 
-.ShareLink input[type="submit"] {
+.AddLink input[type="submit"] {
     width: 100%;
     margin-top: 20px;
     height: 30px;
@@ -71,12 +71,12 @@
     cursor: pointer;
 }
 
-.ShareLink input[type="submit"]:hover {
+.AddLink input[type="submit"]:hover {
     background: rgb(0, 132, 255);
     color: white;
     transition: .5s all;
 }
 
-.ShareLink input[type="submit"]:focus {
+.AddLink input[type="submit"]:focus {
     outline: none
 }

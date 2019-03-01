@@ -1,2 +1,2 @@
-# Share a Link
-MERN App - Share a Link
+# Link Library
+MERN App - Link Library

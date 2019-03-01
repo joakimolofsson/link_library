@@ -11,8 +11,8 @@ const register = async (req, res, next) => {
     next();
 }
 
-const shareLink = async (req, res, next) => {
-    req.inputError = await inputValidation(req.body, 'shareLink');
+const addLink = async (req, res, next) => {
+    req.inputError = await inputValidation(req.body, 'addLink');
     next();
 }
 
@@ -114,4 +114,4 @@ const checkInput = async (val, type, event) => {
     }
 }
 
-export default {login, register, profile, shareLink}
+export default {login, register, profile, addLink}

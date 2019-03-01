@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './css/ShareLink.css';
+import './css/AddLink.css';
 
-class ShareLink extends Component {
+class AddLink extends Component {
     state = {
         serverMsg: '',
         success: false,
-        shareLink: {
+        addLink: {
             link: '',
             description: ''
         }
@@ -13,8 +13,8 @@ class ShareLink extends Component {
 
     handleChange = (e) => {
         this.setState({
-            shareLink: {
-                ...this.state.shareLink,
+            addLink: {
+                ...this.state.addLink,
                 [e.target.name]: e.target.value
             }
         });
@@ -23,15 +23,15 @@ class ShareLink extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const postLink = await fetch('http://localhost:3001/api/sharelink', {
+            const postLink = await fetch('http://localhost:3001/api/addlink', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    link: this.state.shareLink.link,
-                    description: this.state.shareLink.description,
+                    link: this.state.addLink.link,
+                    description: this.state.addLink.description,
                     token: window.localStorage.getItem('token')
                 })
             });
@@ -60,11 +60,11 @@ class ShareLink extends Component {
 
     resetInputFields = () => {
         let resetInput = {};
-        for(let key in this.state.shareLink) {
+        for(let key in this.state.addLink) {
             resetInput = {...resetInput, [key]: ''}
         }
         this.setState({
-            shareLink: {
+            addLink: {
                 ...resetInput
             }
         });
@@ -73,17 +73,17 @@ class ShareLink extends Component {
     render() {
         const success = this.state.success ? 'success' : '';
         return (
-            <div className="ShareLink">
-                <h1>Share a Link</h1>
+            <div className="AddLink">
+                <h1>Add a Link to the Library</h1>
                 <p className={`message ${success}`}>{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
-                    <input className="inputField" type="text" name="link" placeholder="Link Address" value={this.state.shareLink.link} onChange={this.handleChange} required/>
-                    <textarea name="description" cols="54" rows="5" placeholder="Description" value={this.state.shareLink.description} onChange={this.handleChange} required></textarea>
-                    <input type="submit" value="Share"/>
+                    <input className="inputField" type="text" name="link" placeholder="Link Address" value={this.state.addLink.link} onChange={this.handleChange} required/>
+                    <textarea name="description" cols="54" rows="5" placeholder="Description" value={this.state.addLink.description} onChange={this.handleChange} required></textarea>
+                    <input type="submit" value="Add"/>
                 </form>
             </div>
         );
     }
 }
 
-export default ShareLink;
+export default AddLink;

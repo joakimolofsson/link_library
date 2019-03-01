@@ -128,7 +128,7 @@ router.post('/links', async(req, res) => {
 
 //////////
 
-router.post('/sharelink', verifyToken, inputValidation.shareLink, async(req, res) => {
+router.post('/addlink', verifyToken, inputValidation.addLink, async(req, res) => {
     if(req.inputError) {
         return res.json({status: req.inputError});
     } else {
@@ -141,7 +141,7 @@ router.post('/sharelink', verifyToken, inputValidation.shareLink, async(req, res
             await newLink.save();
             return res.json({status: 'success'});
         } catch(err) {
-            console.log(`Failed to share link | ${Date()} | ${err}`);
+            console.log(`Failed to add link | ${Date()} | ${err}`);
             return res.json({status: 'Something went wrong!'});
         }
     }

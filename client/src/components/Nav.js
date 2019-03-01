@@ -57,7 +57,7 @@ class Nav extends Component {
                 <h1>Link Library</h1>
                 <div className="infoContainer">
                     <p>Members: {this.state.members}</p>
-                    <p>Shared links: {this.state.links}</p>
+                    <p>Links in Library: {this.state.links}</p>
                 </div>
                 
                 <div className="hamBarContainer" onClick={this.handleShowLinks}>
@@ -66,7 +66,7 @@ class Nav extends Component {
     
                 <div className={`linksContainer ${showLinks}`}>
                     <Link to="/links" onClick={this.handleShowLinks}>Links</Link>
-                    <Link to="/sharelink" onClick={this.handleShowLinks}>Share a Link</Link>
+                    <Link to="/addlink" onClick={this.handleShowLinks}>Add a Link</Link>
                     <Link to="/profile" onClick={this.handleShowLinks}>Profile</Link>
                     <Link to="/" onClick={() => {this.props.handleLogout(true)}}>Log out</Link>
                 </div>
