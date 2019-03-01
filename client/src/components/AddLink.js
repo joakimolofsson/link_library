@@ -71,11 +71,10 @@ class AddLink extends Component {
     }
 
     render() {
-        const success = this.state.success ? 'success' : '';
         return (
             <div className="AddLink">
                 <h1>Add a Link to the Library</h1>
-                <p className={`message ${success}`}>{this.state.serverMsg}</p>
+                <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="text" name="link" placeholder="Link Address" value={this.state.addLink.link} onChange={this.handleChange} required/>
                     <textarea name="description" cols="54" rows="5" placeholder="Description" value={this.state.addLink.description} onChange={this.handleChange} required></textarea>

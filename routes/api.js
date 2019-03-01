@@ -96,6 +96,8 @@ router.post('/links', async(req, res) => {
             for(let i = 0, len = findLatest.length; i < len; i++) {
                 const sharedLink = {
                     id: findLatest[i]._id,
+                    firstname: findLatest[i].firstname,
+                    lastname: findLatest[i].lastname,
                     link: findLatest[i].link,
                     description: findLatest[i].description,
                     posted: findLatest[i].posted
@@ -111,6 +113,8 @@ router.post('/links', async(req, res) => {
         for(let i = 0, len = findOldest.length; i < len; i++) {
             const sharedLink = {
                 id: findOldest[i]._id,
+                firstname: findOldest[i].firstname,
+                lastname: findOldest[i].lastname,
                 link: findOldest[i].link,
                 description: findOldest[i].description,
                 posted: findOldest[i].posted
@@ -134,6 +138,8 @@ router.post('/addlink', verifyToken, inputValidation.addLink, async(req, res) =>
     } else {
         const newLink = LinkModel({
             userId: req.tokenUserData.user._id,
+            firstname: req.tokenUserData.user.firstname,
+            lastname: req.tokenUserData.user.lastname,
             link: req.body.link,
             description: req.body.description
         });

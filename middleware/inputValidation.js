@@ -51,13 +51,13 @@ const checkInput = async (val, type, event) => {
     switch(type) {
         case 'firstname':
             const firstname = val.trim();
-            if(!validator.isLength(firstname, {min: 2, max: 20})) {
+            if(!validator.isLength(firstname, {min: 2, max: 15})) {
                 return 'Your firstname is too long or too short!';
             }
             break;
         case 'lastname':
             const lastname = val.trim();
-            if(!validator.isLength(lastname, {min: 2, max: 20})) {
+            if(!validator.isLength(lastname, {min: 2, max: 15})) {
                 return 'Your lastname is too long or too short!';
             }
             break;

@@ -6,6 +6,14 @@ const linkSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        firstname: {
+            type: String,
+            required: true
+        },
+        lastname: {
+            type: String,
+            required: true
+        },
         link: {
             type: String,
             required: true

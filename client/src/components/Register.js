@@ -91,11 +91,10 @@ class Register extends Component {
     }
 
     render() {
-        const success = this.state.success ? 'success' : '';
         return (
             <div className="Register">
                 <h1>Link Library</h1>
-                <p className={`message ${success}`}>{this.state.serverMsg}</p>
+                <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
                     <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>

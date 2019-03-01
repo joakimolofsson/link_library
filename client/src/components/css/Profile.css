@@ -1,7 +1,9 @@
 .Profile {
-    width: 300px;
-    height: 350px;
-    margin: 90px auto 0 auto;
+    width: 320px;
+    margin: 110px auto 0 auto;
+    background: white;
+    padding: 30px 0;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
 .Profile h1 {

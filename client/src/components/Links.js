@@ -75,15 +75,16 @@ class Links extends Component {
     }
 
     render() {
-        const success = this.state.success ? 'success' : '';
         return (
             <div className="Links">
-                <h1>Links</h1>
-                <p className={`message ${success}`}>{this.state.serverMsg}</p>
+                <div className="titleContainer">
+                    <h1>Links</h1>
+                    <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
 
-                <div className="filterContainer">
-                    <p className={this.state.filters.latest ? 'active': ''} onClick={() => {this.handleFetchLinks('latest')}}>Latest</p>
-                    <p className={this.state.filters.oldest ? 'active': ''} onClick={() => {this.handleFetchLinks('oldest')}}>Oldest</p>
+                    <div className="filterContainer">
+                        <p className={this.state.filters.latest ? 'active': ''} onClick={() => {this.handleFetchLinks('latest')}}>Latest</p>
+                        <p className={this.state.filters.oldest ? 'active': ''} onClick={() => {this.handleFetchLinks('oldest')}}>Oldest</p>
+                    </div>
                 </div>
                 
                 {this.state.linksList.map((data) => {
@@ -91,7 +92,12 @@ class Links extends Component {
                         <div key={data.id} className="linkContainer">
                             <a href={data.link} className="link">{data.link}</a>
                             <p className="description">{data.description}</p>
-                            <p className="posted">Posted: {data.posted.split('T')[0]}</p>
+                            
+                            <p className="posted">Added by: {data.firstname} {data.lastname} {data.posted.split('T')[0]}</p>
+                            <div className="likeContainer">
+                                <p>Like 142</p>
+                                <p>Dislike 2</p>
+                            </div>
                         </div>
                     )
                 })}

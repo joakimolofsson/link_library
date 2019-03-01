@@ -118,11 +118,10 @@ class Profile extends Component {
     }
 
     render() {
-        const success = this.state.success ? 'success' : '';
         return (
             <div className="Profile">
                 <h1>Your Profile</h1>
-                <p className={`message ${success}`}>{this.state.serverMsg}</p>
+                <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.profile.firstname} onChange={this.handleChange} required/>
                     <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.profile.lastname} onChange={this.handleChange} required/>
