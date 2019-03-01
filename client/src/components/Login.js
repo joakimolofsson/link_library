@@ -68,7 +68,7 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
-                <h1>Share a Link</h1>
+                <h1>Link Library</h1>
                 <p className="message">{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>

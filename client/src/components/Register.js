@@ -94,7 +94,7 @@ class Register extends Component {
         const success = this.state.success ? 'success' : '';
         return (
             <div className="Register">
-                <h1>Share a Link</h1>
+                <h1>Link Library</h1>
                 <p className={`message ${success}`}>{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>

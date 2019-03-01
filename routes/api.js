@@ -73,9 +73,11 @@ router.post('/register', inputValidation.register, async (req, res) => {
 router.post('/nav', verifyToken, async(req, res) => {
     try {
         const allMembers = await UserModel.find({});
+        const allLinks = await LinkModel.find({});
         return res.json({
             status: 'success',
-            allMembers: allMembers.length
+            allMembers: allMembers.length,
+            allLinks: allLinks.length
         });
     } catch(err) {
         console.log(`Failed to get nav data | ${Date()} | ${err}`);

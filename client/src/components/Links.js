@@ -5,7 +5,11 @@ class Links extends Component {
     state = {
         serverMsg: '',
         success: false,
-        linksList: []
+        linksList: [],
+        filters: {
+            latest: false,
+            oldest: false
+        }
     }
     
     componentDidMount = () => {
@@ -25,10 +29,34 @@ class Links extends Component {
                 })
             });
             const res = await getLinks.json();
+            this.handleSelectFilter(filter);
             this.handleResponse(res);
         } catch(err) {
             console.log(err);
             this.setState({serverMsg: 'Something went wrong!'});
+        }
+    }
+
+    handleSelectFilter = (filter) => {
+        switch(filter) {
+            case 'latest':
+                this.setState({
+                    filters: {
+                        latest: true,
+                        oldest: false
+                    }
+                })
+                break;
+            case 'oldest':
+                this.setState({
+                    filters: {
+                        latest: false,
+                        oldest: true
+                    }
+                })
+                break;
+            default:
+                break;
         }
     }
 
@@ -51,15 +79,19 @@ class Links extends Component {
         return (
             <div className="Links">
                 <h1>Links</h1>
-                <p onClick={() => {this.handleFetchLinks('latest')}}>Latest</p>
-                <p onClick={() => {this.handleFetchLinks('oldest')}}>Oldest</p>
                 <p className={`message ${success}`}>{this.state.serverMsg}</p>
+
+                <div className="filterContainer">
+                    <p className={this.state.filters.latest ? 'active': ''} onClick={() => {this.handleFetchLinks('latest')}}>Latest</p>
+                    <p className={this.state.filters.oldest ? 'active': ''} onClick={() => {this.handleFetchLinks('oldest')}}>Oldest</p>
+                </div>
+                
                 {this.state.linksList.map((data) => {
                     return (
-                        <div key={data.id}>
-                            <a href={data.link}>{data.link}</a>
-                            <p>{data.description}</p>
-                            <p>{data.posted}</p>
+                        <div key={data.id} className="linkContainer">
+                            <a href={data.link} className="link">{data.link}</a>
+                            <p className="description">{data.description}</p>
+                            <p className="posted">Posted: {data.posted.split('T')[0]}</p>
                         </div>
                     )
                 })}

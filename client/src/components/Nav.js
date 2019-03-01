@@ -5,14 +5,15 @@ import './css/Nav.css';
 class Nav extends Component {
     state = {
         showLinks: false,
-        members: 0
+        members: 0,
+        links: 0
     }
 
     componentDidMount = () => {
-        this.handleAllMembers();
+        this.handleNavInfo();
     }
 
-    handleAllMembers = async () => {
+    handleNavInfo = async () => {
         try {
             const requstMembers = await fetch('http://localhost:3001/api/nav', {
                 method: 'POST',
@@ -34,7 +35,10 @@ class Nav extends Component {
 
     handleResponse = (res) => {
         if(res.status === 'success') {
-            this.setState({members: res.allMembers});
+            this.setState({
+                members: res.allMembers,
+                links: res.allLinks
+            });
         } else {
             this.setState({members: res.status});
         }
@@ -50,10 +54,10 @@ class Nav extends Component {
         const showLinks = this.state.showLinks ? 'showLinks' : '';
         return (
             <div className={`Nav ${showLinks}`}>
-                <h1>Share a Link</h1>
+                <h1>Link Library</h1>
                 <div className="infoContainer">
                     <p>Members: {this.state.members}</p>
-                    <p>Shared links: 0</p>
+                    <p>Shared links: {this.state.links}</p>
                 </div>
                 
                 <div className="hamBarContainer" onClick={this.handleShowLinks}>
