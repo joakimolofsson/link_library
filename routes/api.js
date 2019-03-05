@@ -87,46 +87,65 @@ router.post('/nav', verifyToken, async(req, res) => {
 
 //////////
 
-router.post('/links', async(req, res) => {
-    //.limit(20)
-    const linksList = [];
-    switch(req.body.sort) {
-        case 'latest':
-            const findLatest = await LinkModel.find().sort('-posted');
-            for(let i = 0, len = findLatest.length; i < len; i++) {
-                const sharedLink = {
-                    id: findLatest[i]._id,
-                    firstname: findLatest[i].firstname,
-                    lastname: findLatest[i].lastname,
-                    link: findLatest[i].link,
-                    description: findLatest[i].description,
-                    posted: findLatest[i].posted
-                };
-                linksList.push(sharedLink);
-            }
-            return res.json({
-                status: 'success',
-                linksList
-            });
-        case 'oldest':
-        const findOldest = await LinkModel.find().sort('posted');
-        for(let i = 0, len = findOldest.length; i < len; i++) {
-            const sharedLink = {
-                id: findOldest[i]._id,
-                firstname: findOldest[i].firstname,
-                lastname: findOldest[i].lastname,
-                link: findOldest[i].link,
-                description: findOldest[i].description,
-                posted: findOldest[i].posted
-            };
-            linksList.push(sharedLink);
+router.post('/getlinks', verifyToken, async(req, res) => {
+    try {
+        let filter = null;
+        switch(req.body.filterOption) {
+            case 'latest':
+                filter = 'posted';
+                break;
+            case 'oldest':
+                filter = '-posted';
+                break;
+            default:
+                break;
         }
+        const links = await LinkModel.find().skip(req.body.linkCount).limit(5).sort(filter);
         return res.json({
             status: 'success',
-            linksList
+            links,
+            userRatedLinks: req.tokenUserData.user.ratedLinks
         });
-        default:
-            break;
+    } catch(err) {
+        console.log(`Failed to get links | ${Date()} | ${err}`);
+        return res.json({status: 'Something went wrong!'});
+    }
+});
+
+router.post('/ratelink', verifyToken, async(req, res) => {
+    try {
+        const userAlreadyRatedLink = await UserModel.findOne({_id: req.tokenUserData.user._id, ratedLinks: {'$elemMatch': {linkId: req.body.linkId, rating: req.body.rating}}});
+        if(userAlreadyRatedLink === null) {
+            let token = null;
+            const updateUserRatedLinks = await UserModel.findOneAndUpdate({_id: req.tokenUserData.user._id, 'ratedLinks.linkId': req.body.linkId}, {
+                'ratedLinks.$.rating': req.body.rating
+            }, {new: true});
+    
+            if(updateUserRatedLinks !== null) {
+                token = await jwt.sign({user: updateUserRatedLinks}, process.env.JWTSECRET, {expiresIn: '30min'});
+            } else {
+                const addUserRatedLinks = await UserModel.findOne({_id: req.tokenUserData.user._id});
+                addUserRatedLinks.ratedLinks.push({
+                    linkId: req.body.linkId,
+                    rating: req.body.rating
+                });
+                addUserRatedLinks.save();
+                token = await jwt.sign({user: addUserRatedLinks}, process.env.JWTSECRET, {expiresIn: '30min'});
+            }
+    
+            await LinkModel.findOneAndUpdate({_id: req.body.linkId}, {'$inc': {[req.body.rating]: 1}});
+            return res.json({
+                status: 'success',
+                token
+            });
+        } else {
+            return res.json({
+                status: 'Already Rated'
+            });
+        }
+    } catch(err) {
+        console.log(`Failed to rate link | ${Date()} | ${err}`);
+        return res.json({status: 'Something went wrong!'});
     }
 });
 
@@ -137,7 +156,6 @@ router.post('/addlink', verifyToken, inputValidation.addLink, async(req, res) =>
         return res.json({status: req.inputError});
     } else {
         const newLink = LinkModel({
-            userId: req.tokenUserData.user._id,
             firstname: req.tokenUserData.user.firstname,
             lastname: req.tokenUserData.user.lastname,
             link: req.body.link,
@@ -173,9 +191,8 @@ router.post('/profile_edit', verifyToken, inputValidation.profile, async (req, r
                 req.updatedInput.password = hashedPassword;
             }
             try {
-                await UserModel.findOneAndUpdate({_id: req.tokenUserData.user._id}, req.updatedInput, {upsert: true});
-                const newProfile = await UserModel.findOne({_id: req.tokenUserData.user._id}),
-                token = await jwt.sign({user: newProfile}, process.env.JWTSECRET, {expiresIn: '30min'});
+                const newProfile = await UserModel.findOneAndUpdate({_id: req.tokenUserData.user._id}, req.updatedInput, {upsert: true, new: true });
+                const token = await jwt.sign({user: newProfile}, process.env.JWTSECRET, {expiresIn: '30min'});
                 return res.json({
                     status: 'success',
                     token

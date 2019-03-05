@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
         req.tokenUserData = userData;
         next();
     } catch(err) {
-        return res.json({status: 'You are logged out!'});
+        return res.json({status: 'You are logged out, please log in!'});
     }
 }
 

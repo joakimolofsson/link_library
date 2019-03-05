@@ -25,7 +25,17 @@ const userSchema = mongoose.Schema(
         created: {
             type: Date,
             default: Date.now
-        }
+        },
+        ratedLinks: [
+            {
+                linkId: {
+                    type: String
+                },
+                rating: {
+                    type: String
+                }
+            }
+        ]
     },
     {
         collection: 'user_coll'

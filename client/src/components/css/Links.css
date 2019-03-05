@@ -37,13 +37,19 @@
     border-bottom: 2px solid white;
 }
 
+.Links .wip_container {
+    width: 1480px;
+    margin: 0 auto;
+    text-align: left;
+}
+
 .Links .linkContainer {
-    width: 400px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-    margin: 10px;
-    padding: 10px;
     display: inline-block;
+    width: 350px;
+    padding: 10px;
+    margin: 10px;
     vertical-align: top;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     text-align: left;
     background: white;
 }
@@ -58,14 +64,20 @@
     word-break: break-word;
 }
 
-.Links .linkContainer .likeContainer {
+.Links .linkContainer .rateContainer {
     text-align: center;
     margin-top: 10px;
 }
 
-.Links .linkContainer .likeContainer p {
+.Links .linkContainer .rateContainer p {
     display: inline-block;
     margin: 0 5px;
+    cursor: pointer;
+}
+
+.Links .linkContainer .rateContainer .rated {
+    color: rgb(0, 132, 255);
+    text-decoration: underline;
 }
 
 .Links .linkContainer .posted {

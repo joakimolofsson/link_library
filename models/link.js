@@ -2,7 +2,11 @@ import mongoose from 'mongoose';
 
 const linkSchema = mongoose.Schema(
     {
-        userId: {
+        link: {
+            type: String,
+            required: true
+        },
+        description: {
             type: String,
             required: true
         },
@@ -14,17 +18,19 @@ const linkSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        link: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
         posted: {
             type: Date,
             default: Date.now
+        },
+        like: {
+            type: Number,
+            default: 0,
+            required: true
+        },
+        dislike: {
+            type: Number,
+            default: 0,
+            required: true
         }
     },
     {

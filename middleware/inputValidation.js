@@ -97,7 +97,7 @@ const checkInput = async (val, type, event) => {
             break;
         case 'link':
             const link = val.trim();
-            if(!validator.isLength(link, {min: 1, max: 100})) {
+            if(!validator.isLength(link, {min: 1, max: 200})) {
                 return 'Your link is too long or too short!';
             } else if(!validator.isURL(link)) {
                 return 'Invalid link!';
