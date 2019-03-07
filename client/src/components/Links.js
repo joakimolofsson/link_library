@@ -5,7 +5,7 @@ class Links extends Component {
     state = {
         serverMsg: '',
         success: false,
-        linkCount: 0,
+        showLinksCount: 0,
         linksList: [],
         filters: {
             latest: false,
@@ -18,7 +18,6 @@ class Links extends Component {
     }
 
     fetchLinks = async (filterOption) => {
-        this.setState({linkCount: this.state.linkCount + 5});
         try {
             const getLinks = await fetch('http://localhost:3001/api/getlinks', {
                 method: 'POST',
@@ -28,11 +27,12 @@ class Links extends Component {
                 },
                 body: JSON.stringify({
                     filterOption,
-                    linkCount: this.state.linkCount,
+                    showLinksCount: this.state.showLinksCount,
                     token: window.localStorage.getItem('token')
                 })
             });
             const res = await getLinks.json();
+            this.setState({showLinksCount: this.state.showLinksCount + 5});
             this.styleFilterBtn(filterOption);
             this.fetchLinksResponse(res);
         } catch(err) {
@@ -66,7 +66,7 @@ class Links extends Component {
 
     fetchLinksResponse = (res) => {
         if(res.status === 'success') {
-            const newLinksList = this.checkWhichLinksAreRated(res.userRatedLinks, res.links);
+            const newLinksList = this.addRatingToLinks(res.links, res.userRatedLinks);
             this.setState(prevState => ({
                 success: true,
                 linksList: [...prevState.linksList, ...newLinksList]
@@ -79,18 +79,21 @@ class Links extends Component {
         }
     }
 
-    checkWhichLinksAreRated = (userRatedLinks, links) => {
-        for(let i = 0, iLen = userRatedLinks.length; i < iLen; i++) {
-            for(let j = 0, jLen = links.length; j < jLen; j++) {
-                if(userRatedLinks[i].linkId === links[j]._id) {
-                    links[j].rating = userRatedLinks[i].rating;
+    addRatingToLinks = (links, userRatedLinks) => {
+        for(let i = 0, iLen = links.length; i < iLen; i++) {
+            for(let j = 0, jLen = userRatedLinks.length; j < jLen; j++) {
+                if(links[i]._id === userRatedLinks[j].linkId) {
+                    links[i].rating = userRatedLinks[j].rating;
                 }
+            }
+            if(links[i].rating === undefined) {
+                links[i].rating = 'none';
             }
         }
         return links;
     }
 
-    rateLink = async (rating, linkId) => {
+    rateLink = async (newRating, currentRating, linkId) => {
         try {
             const getLinks = await fetch('http://localhost:3001/api/ratelink', {
                 method: 'POST',
@@ -99,39 +102,33 @@ class Links extends Component {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    rating,
+                    newRating,
+                    currentRating,
                     linkId,
                     token: window.localStorage.getItem('token')
                 })
             });
             const res = await getLinks.json();
-            this.rateLinkResponse(res, rating, linkId);
+            this.rateLinkResponse(res, newRating);
         } catch(err) {
             console.log(err);
             this.setState({serverMsg: 'Something went wrong!'});
         }
     }
 
-    rateLinkResponse = (res, rating, linkId) => {
+    rateLinkResponse = (res, newRating) => {
         if(res.status === 'success') {
             window.localStorage.setItem('token', res.token);
-            
-            const newLinksList = this.state.linksList.map(data => {
-                if(data._id === linkId) {
-                    switch(rating) {
-                        case 'like':
-                            data.like = data.like + 1;
-                            data.rating = rating;
-                            return {...data};
-                        case 'dislike':
-                            data.dislike = data.dislike + 1;
-                            data.rating = rating;
-                            return {...data};
-                        default:
-                            return {...data};
+            const newLinksList = this.state.linksList.map(link => {
+                if(link._id === res.newLink._id) {
+                    if(res.linkStatus === 'removed') {
+                        res.newLink.rating = 'none';
+                    } else {
+                        res.newLink.rating = newRating;
                     }
+                    return res.newLink;
                 }
-                return {...data};
+                return link;
             });
             this.setState({linksList : newLinksList});
         } else {
@@ -158,16 +155,16 @@ class Links extends Component {
                 <p onClick={() => {this.fetchLinks('latest')}}>Load More</p>
 
                 <div className="wip_container">
-                    {this.state.linksList.map(data => {
+                    {this.state.linksList.map(link => {
                         return (
-                            <div key={data._id} className="linkContainer">
-                                <a href={data.link} className="link">{data.link}</a>
-                                <p className="description">{data.description}</p>
+                            <div key={link._id} className="linkContainer">
+                                <a href={link.link} className="link">{link.link}</a>
+                                <p className="description">{link.description}</p>
                                 
-                                <p className="posted">Added by: {data.firstname} {data.lastname} {data.posted.split('T')[0]}</p>
+                                <p className="posted">Added by: {link.firstname} {link.lastname} {link.posted.split('T')[0]}</p>
                                 <div className="rateContainer">
-                                    <p className={data.rating === 'like' ? 'rated' : ''} onClick={() => {this.rateLink('like', data._id)}}>Like: {data.like}</p>
-                                    <p className={data.rating === 'dislike' ? 'rated' : ''} onClick={() => {this.rateLink('dislike', data._id)}}>Dislike: {data.dislike}</p>
+                                    <p className={link.rating === 'like' ? 'rated' : ''} onClick={() => {this.rateLink('like', link.rating, link._id)}}>Like: {link.like}</p>
+                                    <p className={link.rating === 'dislike' ? 'rated' : ''} onClick={() => {this.rateLink('dislike', link.rating, link._id)}}>Dislike: {link.dislike}</p>
                                 </div>
                             </div>
                         )

@@ -100,7 +100,7 @@ router.post('/getlinks', verifyToken, async(req, res) => {
             default:
                 break;
         }
-        const links = await LinkModel.find().skip(req.body.linkCount).limit(5).sort(filter);
+        const links = await LinkModel.find().skip(req.body.showLinksCount).limit(5).sort(filter);
         return res.json({
             status: 'success',
             links,
@@ -114,33 +114,53 @@ router.post('/getlinks', verifyToken, async(req, res) => {
 
 router.post('/ratelink', verifyToken, async(req, res) => {
     try {
-        const userAlreadyRatedLink = await UserModel.findOne({_id: req.tokenUserData.user._id, ratedLinks: {'$elemMatch': {linkId: req.body.linkId, rating: req.body.rating}}});
-        if(userAlreadyRatedLink === null) {
-            let token = null;
-            const updateUserRatedLinks = await UserModel.findOneAndUpdate({_id: req.tokenUserData.user._id, 'ratedLinks.linkId': req.body.linkId}, {
-                'ratedLinks.$.rating': req.body.rating
+        let updateUserToken = null,
+            incrementOption = null;
+        const compareRatings = await UserModel.findOne({_id: req.tokenUserData.user._id, ratedLinks: {'$elemMatch': {linkId: req.body.linkId, rating: req.body.newRating}}});
+        if(compareRatings === null) {
+            const updateCurrentRating = await UserModel.findOneAndUpdate({_id: req.tokenUserData.user._id, 'ratedLinks.linkId': req.body.linkId}, {
+                'ratedLinks.$.rating': req.body.newRating
             }, {new: true});
     
-            if(updateUserRatedLinks !== null) {
-                token = await jwt.sign({user: updateUserRatedLinks}, process.env.JWTSECRET, {expiresIn: '30min'});
+            if(updateCurrentRating !== null) {
+                updateUserToken = updateCurrentRating;
+                incrementOption = {[req.body.newRating]: 1, [req.body.currentRating]: -1};
             } else {
-                const addUserRatedLinks = await UserModel.findOne({_id: req.tokenUserData.user._id});
-                addUserRatedLinks.ratedLinks.push({
+                const addNewRating = await UserModel.findOne({_id: req.tokenUserData.user._id});
+                addNewRating.ratedLinks.push({
                     linkId: req.body.linkId,
-                    rating: req.body.rating
+                    rating: req.body.newRating
                 });
-                addUserRatedLinks.save();
-                token = await jwt.sign({user: addUserRatedLinks}, process.env.JWTSECRET, {expiresIn: '30min'});
+                await addNewRating.save();
+                updateUserToken = addNewRating;
+                incrementOption = {[req.body.newRating]: 1};
             }
-    
-            await LinkModel.findOneAndUpdate({_id: req.body.linkId}, {'$inc': {[req.body.rating]: 1}});
+
+            const token = await jwt.sign({user: updateUserToken}, process.env.JWTSECRET, {expiresIn: '30min'}),
+            newLink = await LinkModel.findOneAndUpdate({_id: req.body.linkId}, {'$inc': incrementOption}, {new: true});
+
             return res.json({
                 status: 'success',
-                token
+                token,
+                newLink
             });
         } else {
+            let removeRating = null;
+            for(let i = 0, len = compareRatings.ratedLinks.length; i < len; i++) {
+                if(compareRatings.ratedLinks[i].linkId === req.body.linkId) {
+                    removeRating = compareRatings.ratedLinks[i]._id;
+                }
+            }
+            compareRatings.ratedLinks.pull({_id: removeRating});
+            await compareRatings.save();
+            const token = await jwt.sign({user: compareRatings}, process.env.JWTSECRET, {expiresIn: '30min'}),
+            newLink = await LinkModel.findOneAndUpdate({_id: req.body.linkId}, {'$inc': {[req.body.currentRating]: -1}}, {new: true});
+
             return res.json({
-                status: 'Already Rated'
+                status: 'success',
+                token,
+                newLink,
+                linkStatus: 'removed'
             });
         }
     } catch(err) {

@@ -47,7 +47,7 @@ class AddLink extends Component {
         if(res.status === 'success') {
             this.resetInputFields();
             this.setState({
-                serverMsg: 'Thanks for sharing!',
+                serverMsg: 'Link was added to the library!',
                 success: true
             });
         } else {

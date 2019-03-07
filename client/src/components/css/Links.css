@@ -31,9 +31,8 @@
     color: white;
 }
 
-.Links .filterContainer .active {
+.Links .active {
     color: white;
-    background: rgb(0, 132, 255);
     border-bottom: 2px solid white;
 }
 
@@ -46,41 +45,41 @@
 .Links .linkContainer {
     display: inline-block;
     width: 350px;
-    padding: 10px;
     margin: 10px;
+    padding: 10px;
     vertical-align: top;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     text-align: left;
     background: white;
 }
 
-.Links .linkContainer .link {
+.Links .link {
     color: rgb(0, 132, 255);
     word-break: break-all;
 }
 
-.Links .linkContainer .description {
+.Links .description {
     margin: 10px 0;
     word-break: break-word;
 }
 
-.Links .linkContainer .rateContainer {
+.Links .rateContainer {
     text-align: center;
     margin-top: 10px;
 }
 
-.Links .linkContainer .rateContainer p {
+.Links .rateContainer p {
     display: inline-block;
     margin: 0 5px;
     cursor: pointer;
 }
 
-.Links .linkContainer .rateContainer .rated {
+.Links .rated {
     color: rgb(0, 132, 255);
     text-decoration: underline;
 }
 
-.Links .linkContainer .posted {
+.Links .posted {
     font-size: 11px;
     text-align: right;
 }
