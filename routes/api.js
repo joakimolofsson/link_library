@@ -89,18 +89,25 @@ router.post('/nav', verifyToken, async(req, res) => {
 
 router.post('/getlinks', verifyToken, async(req, res) => {
     try {
-        let filter = null;
-        switch(req.body.filterOption) {
+        let filter = null,
+        count = req.body.showLinksCount;
+        switch(req.body.filter) {
             case 'latest':
-                filter = 'posted';
+                filter = '-posted';
                 break;
             case 'oldest':
-                filter = '-posted';
+                filter = 'posted';
+                break;
+            case 'like':
+                filter = {like: -1};
+                break;
+            case 'dislike':
+                filter = {dislike: -1};
                 break;
             default:
                 break;
         }
-        const links = await LinkModel.find().skip(req.body.showLinksCount).limit(5).sort(filter);
+        const links = await LinkModel.find().skip(count).limit(5).sort(filter);
         return res.json({
             status: 'success',
             links,
