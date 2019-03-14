@@ -1,6 +1,11 @@
 .Links {
-    margin: 90px auto 0 auto;
+    padding: 90px 0 0 0;
     text-align: center;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .Links h1 {

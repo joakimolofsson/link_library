@@ -19,7 +19,7 @@ class Links extends Component {
         this.fetchLinks('latest');
     }
 
-    fetchLinks = async (filter) => {
+    fetchLinks = async (activeFilter) => {
         try {
             const getLinks = await fetch('http://localhost:3001/api/getlinks', {
                 method: 'POST',
@@ -28,66 +28,68 @@ class Links extends Component {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    filter: await this.setFilterAndLinkCount(filter),
+                    filter: await this.setFilterAndLinkCount(activeFilter),
                     showLinksCount: this.state.showLinksCount,
                     token: window.localStorage.getItem('token')
                 })
             });
             const res = await getLinks.json();
-            this.fetchLinksResponse(res, filter);
+            this.fetchLinksResponse(res, activeFilter);
         } catch(err) {
             console.log(err);
             this.setState({serverMsg: 'Something went wrong!'});
         }
     }
 
-    setFilterAndLinkCount = (filter) => {
-        for(let i in this.state.filters) {
-            if(filter === [i][0]) {
+    setFilterAndLinkCount = (activeFilter) => {
+        for(let filter in this.state.filters) {
+            if(activeFilter === [filter][0]) {
                 this.setState(prevState => ({
                     showLinksCount: 0,
                     filters: {
                         ...prevState.filters,
-                        [i]: true
+                        [filter]: true
                     }
                 }));
-            } else if(filter === 'viewMore') {
+            } else if(activeFilter === 'viewMore') {
                 this.setState({
                     showLinksCount: this.state.showLinksCount + 5
                 });
-                if(this.state.filters[i]) {
-                    return [i][0];
+                if(this.state.filters[filter]) {
+                    return [filter][0];
                 }
             } else {
                 this.setState(prevState => ({
                     filters: {
                         ...prevState.filters,
-                        [i]: false
+                        [filter]: false
                     }
                 }));
             }
         }
-        return filter;
+        return activeFilter;
     }
 
     addRatingToLinks = (links, userRatedLinks) => {
-        for(let i = 0, iLen = links.length; i < iLen; i++) {
-            for(let j = 0, jLen = userRatedLinks.length; j < jLen; j++) {
-                if(links[i]._id === userRatedLinks[j].linkId) {
-                    links[i].rating = userRatedLinks[j].rating;
+        if(userRatedLinks !== undefined) {
+            for(let i = 0, iLen = links.length; i < iLen; i++) {
+                for(let j = 0, jLen = userRatedLinks.length; j < jLen; j++) {
+                    if(links[i]._id === userRatedLinks[j].linkId) {
+                        links[i].rating = userRatedLinks[j].rating;
+                    }
                 }
-            }
-            if(links[i].rating === undefined) {
-                links[i].rating = 'none';
+                if(links[i].rating === undefined) {
+                    links[i].rating = 'none';
+                }
             }
         }
         return links;
     }
 
-    fetchLinksResponse = (res, filter) => {
+    fetchLinksResponse = (res, activeFilter) => {
         if(res.status === 'success') {
             const newLinksList = this.addRatingToLinks(res.links, res.userRatedLinks);
-            if(filter === 'viewMore') {
+            if(activeFilter === 'viewMore') {
                 this.setState(prevState => ({
                     success: true,
                     linksList: [...prevState.linksList, ...newLinksList]
