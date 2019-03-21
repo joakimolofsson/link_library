@@ -107,7 +107,7 @@ router.post('/getlinks', verifyToken, async(req, res) => {
             default:
                 break;
         }
-        const links = await LinkModel.find().skip(count).limit(5).sort(filter);
+        const links = await LinkModel.find().skip(count).limit(20).sort(filter);
         return res.json({
             status: 'success',
             links,

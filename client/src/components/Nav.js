@@ -64,7 +64,7 @@ class Nav extends Component {
                     <div className={this.state.showLinks ? 'hamBarOpen' : 'hamBarClosed'}></div>
                 </div>
     
-                <div className={`linksContainer ${showLinks}`}>
+                <div className={`navContainer ${showLinks}`}>
                     <Link to="/links" onClick={this.handleShowLinks}>Links</Link>
                     <Link to="/addlink" onClick={this.handleShowLinks}>Add a Link</Link>
                     <Link to="/profile" onClick={this.handleShowLinks}>Profile</Link>
