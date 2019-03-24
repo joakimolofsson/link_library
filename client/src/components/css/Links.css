@@ -52,56 +52,48 @@
 
 .Links .allLinksContainer {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
+    padding: 0 50px;
     /* background: red; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.Links .perspectiveContainer {
+.Links .linkContainer {
     position: relative;
     display: inline-block;
     writing-mode: vertical-rl;
     width: auto;
     height: 80%;
-    vertical-align: top;
-    perspective: 1000px;
     background: #0053a0;
-    cursor: pointer;
-    border-radius: 5px;
+    transition: 1s padding;
+}
+.Links .linkContainer:hover {
+    padding: 0 10px;
 }
 
-.Links .linkContainer {
+.Links .closedLinkContainer {
+    perspective: 1000px;
+}
+
+.Links .closedLinkContainer .container {
     position: relative;
     padding: 10px 0;
-    text-align: center;
-    word-break: break-word;
     transform-origin: center bottom;
     transition: 1s all;
     background: #0084ff;
+    border-radius: 0;
+    cursor: pointer;
+}
+.Links .linkContainer:hover .closedLinkContainer .container {
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5), 0 -10px 0 0 white;
+    transform: rotateX(-10deg) rotate(-2deg) translateY(3%);
     border-radius: 5px;
 }
-.Links .perspectiveContainer:hover .linkContainer {
-    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5), 0 -10px 0 0 white;
-    transform: rotateX(-10deg) rotate(-3deg) translateY(20px);
-    margin: 0 20px;
-}
 
-.Links .aHrefContainer {
-    width: 100%;
-    color: #0058cc;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.Links .link {
-    color: #0058cc;
-    display: none;
-}
-
-.Links .description {
+.Links .closedLinkContainer .description {
     width: 100%; 
     color: white;
     white-space: nowrap; 
@@ -109,26 +101,66 @@
     text-overflow: ellipsis;
 }
 
-.Links .rateContainer {
-    color: #003170;
-    text-align: center;
-    margin-top: 10px;
-    display: none;
+.Links .open .container {
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5), 0 -10px 0 0 white;
+    transform: rotateX(-10deg) rotate(-2deg) translateY(3%);
+    border-radius: 5px;
 }
 
-.Links .rateContainer p {
+.Links .openedLinkContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    white-space: normal;
+    word-break: break-word;
+    display: none;
+    writing-mode: horizontal-tb;
+}
+
+.Links .openedLinkContainer .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: auto;
+    padding: 20px;
+    text-align: left;
+    background: white;
+    border-radius: 5px;
+}
+
+.Links .openedLinkContainer .link {
+    font-size: 45px;
+    color: #0084ff;
+}
+
+.Links .openedLinkContainer .description {
+    margin: 20px 0;
+    font-size: 25px !important;
+    font-family: 'Josefin sans' !important;
+}
+
+.Links .openedLinkContainer .rateContainer {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.Links .openedLinkContainer .rateContainer p {
     display: inline-block;
     margin: 0 5px;
     cursor: pointer;
 }
 
-.Links .rated {
-    color: orange;
+.Links .openedLinkContainer .rated {
+    color: #0084ff;
     text-decoration: underline;
 }
 
-.Links .posted {
-    color: #003170;
+.Links .openedLinkContainer .posted {
     text-align: right;
-    display: none;
 }

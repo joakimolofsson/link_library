@@ -13,18 +13,16 @@ class Links extends Component {
             like: false,
             dislike: false,
         },
-        count: 0,
-        prevScroll: 0
+        openLink: false
     }
     
     componentDidMount = async () => {
         await this.fetchLinks('latest');
-        /* const perspective = document.querySelectorAll('.perspectiveContainer');
-        for(let i = 0, len = perspective.length; i < len; i++) {
-            perspective[i].addEventListener('mousemove', this.animateLinks);
-        } */
-        /* window.addEventListener('mousemove', this.animateLinks); */
         this.setFontAndSize();
+        /* const links = document.querySelectorAll('.linkContainer');
+        for(let i = 0, len = links.length; i < len; i++) {
+            links[i].addEventListener('click', this.clickLink);
+        } */
     }
 
     fetchLinks = async (activeFilter) => {
@@ -162,43 +160,6 @@ class Links extends Component {
         }
     }
 
-    animateLinks = (e) => {
-        /* const mouseEvent = e,
-        linkWidth = e.currentTarget.clientWidth / 2,
-        linkHeight = e.currentTarget.clientHeight / 2,
-        linkPosX = e.currentTarget.getBoundingClientRect().x,
-        linkPoxY = e.currentTarget.getBoundingClientRect().y,
-        xDeg = ((mouseEvent.x - linkPosX) - linkWidth) / 10,
-        yDeg = (linkHeight - (mouseEvent.y - linkPoxY)) / 5,
-        currentLinkContainer = mouseEvent.currentTarget.childNodes[0];
-
-        currentLinkContainer.style.transform = `rotateX(${yDeg}deg) rotateY(${xDeg}deg)`; */
-
-        /* const allLinks = document.querySelectorAll('.linkContainer');
-
-        const ww = window.innerWidth / 2,
-        wh = window.innerHeight / 2,
-        x = e.x,
-        y = e.y,
-        xDeg = (x - ww) / 25,
-        yDeg = (wh - y) / 25;
-
-        for(let i = 0, len = allLinks.length; i < len; i++) {
-            allLinks[i].style.transform = `rotateX(${yDeg}deg) rotateY(${xDeg}deg)`;
-        }
-        
-
-        console.log(ww) */
-    }
-
-    focus = (e) => {
-        /* const allLinks = document.getElementsByClassName('linkContainer');
-        for(let i = 0, len = allLinks.length; i < len; i++) {
-            allLinks[i].classList.remove('inFocus');
-        }
-        e.currentTarget.parentNode.classList.add('inFocus'); */
-    }
-
     setFontAndSize = (e) => {
         const allDesc = document.querySelectorAll('.description'),
         fontArray = ['Germania One','Margarine','Saira Extra Condensed','Baloo Chettan','Open Sans Condensed','Lora','Lilita One','Indie Flower','Lobster','Pacifico'];
@@ -207,6 +168,16 @@ class Links extends Component {
             randomFontSize = Math.floor((Math.random() * 75) + 25);
             allDesc[i].style.fontFamily = fontArray[randomFont];
             allDesc[i].style.fontSize = `${randomFontSize}px`;
+        }
+    }
+
+    clickLink = (e) => {
+        if(e.currentTarget.classList.contains('closedLinkContainer')) {
+            e.currentTarget.nextElementSibling.style.display = 'block';
+            e.currentTarget.classList.add('open');
+        } else if(e.target.classList.contains('openedLinkContainer')) {
+            e.currentTarget.style.display = 'none';
+            e.currentTarget.previousElementSibling.classList.remove('open');
         }
     }
 
@@ -228,17 +199,22 @@ class Links extends Component {
                 <div className="allLinksContainer">
                     {this.state.linksList.map(link => {
                         return (
-                            <div key={link._id} className="perspectiveContainer">
-                                <div className="linkContainer">
-                                    <div className="aHrefContainer">
-                                        <a href={link.link} className="link">{link.link}</a>
+                            <div key={link._id} className="linkContainer">
+                                <div className="closedLinkContainer" onClick={this.clickLink}>
+                                    <div className="container">
+                                        <p className="description">{link.description}</p>
                                     </div>
-                                    <p className="description" onClick={this.focus}>{link.description}</p>
-                                    
-                                    <p className="posted">Added by: {link.firstname} {link.lastname} {link.posted.split('T')[0]}</p>
-                                    <div className="rateContainer">
-                                        <p className={link.rating === 'like' ? 'rated' : ''} onClick={() => {this.rateLink('like', link.rating, link._id)}}>Likes: {link.like}</p>
-                                        <p className={link.rating === 'dislike' ? 'rated' : ''} onClick={() => {this.rateLink('dislike', link.rating, link._id)}}>Dislikes: {link.dislike}</p>
+                                </div>
+                                <div className="openedLinkContainer" onClick={this.clickLink}>
+                                    <div className="container">
+                                        <a href={link.link} className="link">{link.link}</a>
+                                        <p className="description">{link.description}</p>
+                                        
+                                        <p className="posted">Added by: {link.firstname} {link.lastname} {link.posted.split('T')[0]}</p>
+                                        <div className="rateContainer">
+                                            <p className={link.rating === 'like' ? 'rated' : ''} onClick={() => {this.rateLink('like', link.rating, link._id)}}>Likes: {link.like}</p>
+                                            <p className={link.rating === 'dislike' ? 'rated' : ''} onClick={() => {this.rateLink('dislike', link.rating, link._id)}}>Dislikes: {link.dislike}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

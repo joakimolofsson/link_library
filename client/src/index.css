@@ -9,6 +9,22 @@ html, body {
   background: #0084ff;
 }
 
-/* body::-webkit-scrollbar { 
-  display: none; 
-} */
+/* width */
+::-webkit-scrollbar {
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0053a0; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0084ff; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: white; 
+}
