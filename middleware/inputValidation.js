@@ -1,5 +1,5 @@
-import validator from 'validator';
-import UserModel from '../models/user';
+const validator = require('validator');
+const UserModel = require('../models/user');
 
 const login = async (req, res, next) => {
     req.inputError = await inputValidation(req.body, 'login');
@@ -114,4 +114,4 @@ const checkInput = async (val, type, event) => {
     }
 }
 
-export default {login, register, profile, addLink}
+module.exports = {login, register, profile, addLink};

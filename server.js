@@ -1,10 +1,10 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import dotEnv from 'dotenv';
-import cors from 'cors';
-import mongoDb from './config/db';
-import api from './routes/api';
-import path from 'path';
+const express = require('express');
+const bodyParser = require('body-parser');
+const dotEnv = require('dotenv');
+const cors = require('cors');
+const mongoDb = require('./config/db');
+const api = require('./routes/api');
+const path = require('path');
 
 dotEnv.config();
 mongoDb();

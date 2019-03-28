@@ -1,10 +1,10 @@
-import express from 'express';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import UserModel from '../models/user';
-import LinkModel from '../models/link';
-import inputValidation from '../middleware/inputValidation';
-import verifyToken from '../middleware/verifyToken';
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const UserModel = require('../models/user');
+const LinkModel = require('../models/link');
+const inputValidation = require('../middleware/inputValidation');
+const verifyToken = require('../middleware/verifyToken');
 
 const router = express.Router();
 
@@ -234,4 +234,4 @@ router.post('/profile_edit', verifyToken, inputValidation.profile, async (req, r
     }
 });
 
-export default router;
+module.exports =  router;

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const mongoDb = async () => {
     try {
@@ -9,4 +9,4 @@ const mongoDb = async () => {
     }
 };
 
-export default mongoDb;
+module.exports = mongoDb;

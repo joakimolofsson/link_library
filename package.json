@@ -6,11 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client-install": "npm install --prefix client",
-    "start": "node server.js",
+    "start": "concurrently --kill-others \"nodemon server_build\" \"cd client && npm start\"",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently --kill-others \"nodemon server_build\" \"cd client && npm start\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"    
+    "dev": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,6 @@
   },
   "homepage": "https://github.com/joakimolofsson/mern_app#readme",
   "dependencies": {
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
