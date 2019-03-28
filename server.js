@@ -7,7 +7,7 @@ const api = require('./routes/api');
 const path = require('path');
 
 dotEnv.config();
-/* mongoDb(); */
+mongoDb();
 
 const app = express(),
 port = process.env.PORT || 3001;
