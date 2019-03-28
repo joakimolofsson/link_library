@@ -37,7 +37,7 @@ class Register extends Component {
         e.preventDefault();
         if(this.handleConfirmPassword()) {
             try {
-                const registerUser = await fetch('http://localhost:3001/api/register', {
+                const registerUser = await fetch(window.location.href + '/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
