@@ -22,7 +22,7 @@ class Login extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const loginUser = await fetch(window.location.href + '/api/', {
+            const loginUser = await fetch(window.location.href + 'api/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
