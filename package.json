@@ -4,8 +4,12 @@
   "description": "MERN App",
   "main": "server.js",
   "scripts": {
+    "client": "cd client && npm start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
     "type": "git",
@@ -28,6 +32,5 @@
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.6",
     "validator": "^10.11.0"
-  },
-  "proxy": "http://localhost:3001"
+  }
 }
