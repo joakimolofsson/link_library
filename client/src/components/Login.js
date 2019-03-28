@@ -22,7 +22,7 @@ class Login extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const loginUser = await fetch('https://nameless-cliffs-81422.herokuapp.com/', {
+            const loginUser = await fetch('api/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
