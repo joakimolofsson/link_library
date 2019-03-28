@@ -19,10 +19,6 @@ class Links extends Component {
     componentDidMount = async () => {
         await this.fetchLinks('latest');
         this.setFontAndSize();
-        /* const links = document.querySelectorAll('.linkContainer');
-        for(let i = 0, len = links.length; i < len; i++) {
-            links[i].addEventListener('click', this.clickLink);
-        } */
     }
 
     fetchLinks = async (activeFilter) => {
@@ -171,13 +167,20 @@ class Links extends Component {
         }
     }
 
-    clickLink = (e) => {
+    openLink = (e) => {
         if(e.currentTarget.classList.contains('closedLinkContainer')) {
-            e.currentTarget.nextElementSibling.style.display = 'block';
-            e.currentTarget.classList.add('open');
+            e.currentTarget.classList.add('pulledOutLink');
+            e.currentTarget.nextElementSibling.classList.remove('hide');
+            e.currentTarget.nextElementSibling.classList.add('show');
+            e.currentTarget.nextElementSibling.style.display = 'block';            
         } else if(e.target.classList.contains('openedLinkContainer')) {
-            e.currentTarget.style.display = 'none';
-            e.currentTarget.previousElementSibling.classList.remove('open');
+            e.currentTarget.previousElementSibling.classList.remove('pulledOutLink');
+            e.currentTarget.classList.remove('show');
+            e.currentTarget.classList.add('hide');            
+            const elem = e.currentTarget;
+            setTimeout(function() {
+                elem.style.display = 'none';
+            }, 1000);            
         }
     }
 
@@ -200,12 +203,12 @@ class Links extends Component {
                     {this.state.linksList.map(link => {
                         return (
                             <div key={link._id} className="linkContainer">
-                                <div className="closedLinkContainer" onClick={this.clickLink}>
+                                <div className="closedLinkContainer" onClick={this.openLink}>
                                     <div className="container">
                                         <p className="description">{link.description}</p>
                                     </div>
                                 </div>
-                                <div className="openedLinkContainer" onClick={this.clickLink}>
+                                <div className="openedLinkContainer" onClick={this.openLink}>
                                     <div className="container">
                                         <a href={link.link} className="link">{link.link}</a>
                                         <p className="description">{link.description}</p>

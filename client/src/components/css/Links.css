@@ -50,6 +50,8 @@
     border-bottom: 2px solid white;
 }
 
+
+
 .Links .allLinksContainer {
     position: absolute;
     width: auto;
@@ -86,6 +88,7 @@
     background: #0084ff;
     border-radius: 0;
     cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(0,0,0,0), 0 0 0 0 white;
 }
 .Links .linkContainer:hover .closedLinkContainer .container {
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5), 0 -10px 0 0 white;
@@ -101,17 +104,67 @@
     text-overflow: ellipsis;
 }
 
-.Links .open .container {
+.Links .pulledOutLink .container {
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5), 0 -10px 0 0 white;
     transform: rotateX(-10deg) rotate(-2deg) translateY(3%);
     border-radius: 5px;
+}
+
+
+.Links .show {
+    animation: showBg 1s forwards;
+}
+@keyframes showBg {
+    0% {
+        background: rgba(0, 0, 0, 0);
+    }
+    100% {
+        background: rgba(0,0,0,0.5);
+    }
+}
+.Links .show .container {
+    animation: showContainer 1s forwards;
+}
+@keyframes showContainer {
+    0% {
+        top: 45%;
+        opacity: 0;
+    }
+    100% {
+        top: 50%;
+        opacity: 1;
+    }
+}
+
+.Links .hide {
+    animation: hideBg 1s forwards;
+}
+@keyframes hideBg {
+    0% {
+        background: rgba(0,0,0,0.5);
+    }
+    100% {
+        background: rgba(0, 0, 0, 0);
+    }
+}
+.Links .hide .container {
+    animation: hideContainer 1s forwards;
+}
+@keyframes hideContainer {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        top: 45%;
+        opacity: 0;
+    }
 }
 
 .Links .openedLinkContainer {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0.5);
+    /* background: rgba(0,0,0,0.5); */
     z-index: 10;
     width: 100vw;
     height: 100vh;
@@ -126,7 +179,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    max-width: 50%;
+    min-width: 25%;
     height: auto;
     padding: 20px;
     text-align: left;
@@ -135,7 +189,7 @@
 }
 
 .Links .openedLinkContainer .link {
-    font-size: 45px;
+    font-size: 20px;
     color: #0084ff;
 }
 
@@ -162,5 +216,6 @@
 }
 
 .Links .openedLinkContainer .posted {
+    font-size: 13px;
     text-align: right;
 }
