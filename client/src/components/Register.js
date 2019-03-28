@@ -37,7 +37,7 @@ class Register extends Component {
         e.preventDefault();
         if(this.handleConfirmPassword()) {
             try {
-                const registerUser = await fetch('https://nameless-cliffs-81422.herokuapp.com/register', {
+                const registerUser = await fetch('/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
