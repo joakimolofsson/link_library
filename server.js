@@ -10,7 +10,7 @@ dotEnv.config();
 mongoDb();
 
 const app = express(),
-port = process.env.port || 3001;
+port = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
