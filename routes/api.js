@@ -10,7 +10,7 @@ const router = express.Router();
 
 //////////
 
-router.post('/', inputValidation.login, async (req, res) => {
+router.post('/login', inputValidation.login, async (req, res) => {
     if(req.inputError) {
         res.json({status: req.inputError});
     } else {

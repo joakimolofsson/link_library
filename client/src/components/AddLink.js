@@ -23,7 +23,7 @@ class AddLink extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const postLink = await fetch('http://localhost:3001/api/addlink', {
+            const postLink = await fetch('api/addlink', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

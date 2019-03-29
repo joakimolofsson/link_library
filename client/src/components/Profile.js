@@ -21,7 +21,7 @@ class Profile extends Component {
 
     handleProfileData = async () => {
         try {
-            const getProfile = await fetch('http://localhost:3001/api/profile', {
+            const getProfile = await fetch('api/profile', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ class Profile extends Component {
         e.preventDefault();
         if(this.handleConfirmPassword()) {
             try {
-                const updateProfile = await fetch('http://localhost:3001/api/profile_edit', {
+                const updateProfile = await fetch('api/profile_edit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

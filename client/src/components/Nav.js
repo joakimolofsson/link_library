@@ -15,7 +15,7 @@ class Nav extends Component {
 
     handleNavInfo = async () => {
         try {
-            const requstMembers = await fetch('http://localhost:3001/api/nav', {
+            const requstMembers = await fetch('api/nav', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

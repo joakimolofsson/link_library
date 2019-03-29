@@ -23,7 +23,7 @@ class Links extends Component {
 
     fetchLinks = async (activeFilter) => {
         try {
-            const getLinks = await fetch('http://localhost:3001/api/getlinks', {
+            const getLinks = await fetch('api/getlinks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ class Links extends Component {
 
     rateLink = async (newRating, currentRating, linkId) => {
         try {
-            const getLinks = await fetch('http://localhost:3001/api/ratelink', {
+            const getLinks = await fetch('api/ratelink', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
