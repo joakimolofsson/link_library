@@ -11,28 +11,27 @@
 }
 
 .Links .message {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
     color: white;
     margin: 5px auto;
     height: 18px;
 }
 
 .Links .success {
-    color: white;
-}
-
-.Links .titleContainer {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+    display: none;
 }
 
 .Links .filterContainer {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
     padding: 5px;
     background: #0055a5;
-    position: relative;
-    z-index: 100000;
+    z-index: 10;
 }
 
 .Links .filterContainer p {
@@ -49,8 +48,6 @@
     color: white;
     border-bottom: 2px solid white;
 }
-
-
 
 .Links .allLinksContainer {
     position: absolute;
@@ -70,7 +67,7 @@
     width: auto;
     height: 80%;
     background: #0053a0;
-    transition: 1s padding;
+    transition: .5s padding;
 }
 .Links .linkContainer:hover {
     padding: 0 10px;
@@ -84,7 +81,7 @@
     position: relative;
     padding: 10px 0;
     transform-origin: center bottom;
-    transition: 1s all;
+    transition: .5s all;
     background: #0084ff;
     border-radius: 0;
     cursor: pointer;
@@ -165,13 +162,14 @@
     top: 0;
     left: 0;
     /* background: rgba(0,0,0,0.5); */
-    z-index: 10;
+    z-index: 20;
     width: 100vw;
     height: 100vh;
     white-space: normal;
     word-break: break-word;
     display: none;
     writing-mode: horizontal-tb;
+    cursor: pointer;
 }
 
 .Links .openedLinkContainer .container {
@@ -186,6 +184,7 @@
     text-align: left;
     background: white;
     border-radius: 5px;
+    cursor: auto;
 }
 
 .Links .openedLinkContainer .link {

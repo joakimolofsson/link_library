@@ -187,16 +187,7 @@ class Links extends Component {
     render() {
         return (
             <div className="Links">
-                {/* <div className="titleContainer">
-                    <div className="filterContainer">
-                        <p className={this.state.filters.latest ? 'active': ''} onClick={() => {this.fetchLinks('latest')}}>Latest</p>
-                        <p className={this.state.filters.oldest ? 'active': ''} onClick={() => {this.fetchLinks('oldest')}}>Oldest</p>
-                        <p className={this.state.filters.like ? 'active': ''} onClick={() => {this.fetchLinks('like')}}>Likes</p>
-                        <p className={this.state.filters.dislike ? 'active': ''} onClick={() => {this.fetchLinks('dislike')}}>DisLikes</p>
-                    </div>
-                    <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
-                </div> */}
-                
+                <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
                 {/* <p onClick={() => {this.fetchLinks('viewMore')}}>Load More</p> */}
 
                 <div className="allLinksContainer">
@@ -223,6 +214,13 @@ class Links extends Component {
                             </div>
                         )
                     })}
+                </div>
+
+                <div className="filterContainer">
+                    <p className={this.state.filters.latest ? 'active': ''} onClick={() => {this.fetchLinks('latest')}}>Latest</p>
+                    <p className={this.state.filters.oldest ? 'active': ''} onClick={() => {this.fetchLinks('oldest')}}>Oldest</p>
+                    <p className={this.state.filters.like ? 'active': ''} onClick={() => {this.fetchLinks('like')}}>Likes</p>
+                    <p className={this.state.filters.dislike ? 'active': ''} onClick={() => {this.fetchLinks('dislike')}}>DisLikes</p>
                 </div>
             </div>
         );
