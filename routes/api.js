@@ -50,7 +50,6 @@ router.post('/register', inputValidation.register, async (req, res) => {
         const newUser = UserModel({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
-            age: req.body.age,
             email: req.body.email,
             password: req.body.password
         });

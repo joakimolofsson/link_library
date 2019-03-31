@@ -18,7 +18,7 @@ const addLink = async (req, res, next) => {
 
 const profile = async (req, res, next) => {
     const updatedInput = {},
-    compareKeys = ['firstname', 'lastname', 'age', 'email', 'password'];
+    compareKeys = ['firstname', 'lastname', 'email', 'password'];
     for(let key in req.body) {
         if(compareKeys.indexOf(key) !== -1 && req.body[key] !== req.tokenUserData.user[key]) {
             if(key === 'password' && req.body[key] === '') {
@@ -59,15 +59,6 @@ const checkInput = async (val, type, event) => {
             const lastname = val.trim();
             if(!validator.isLength(lastname, {min: 2, max: 15})) {
                 return 'Your lastname is too long or too short!';
-            }
-            break;
-        case 'age':
-            const valToString = val.toString(),
-            age = valToString.trim();
-            if(!validator.isInt(age)) {
-                return 'Your age is not valid!'
-            } else if(!validator.isLength(age, {min: 1, max: 3})) {
-                return 'Your age is too long or too short!';
             }
             break;
         case 'email':

@@ -6,22 +6,18 @@ class Links extends Component {
         serverMsg: '',
         success: false,
         showLinksCount: 0,
+        viewMoreLinks: false,
         linksList: [],
-        filters: {
-            latest: false,
-            oldest: false,
-            like: false,
-            dislike: false,
-        },
-        openLink: false
+        filter: '',
     }
     
     componentDidMount = async () => {
-        await this.fetchLinks('latest');
-        this.setFontAndSize();
+        this.fetchLinks('latest');
+        this.mouseScrollLeft();
     }
 
     fetchLinks = async (activeFilter) => {
+        await this.setFilterAndLinkCount(activeFilter);
         try {
             const getLinks = await fetch('api/getlinks', {
                 method: 'POST',
@@ -30,13 +26,15 @@ class Links extends Component {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    filter: await this.setFilterAndLinkCount(activeFilter),
+                    filter: this.state.filter,
                     showLinksCount: this.state.showLinksCount,
                     token: window.localStorage.getItem('token')
                 })
             });
             const res = await getLinks.json();
-            this.fetchLinksResponse(res, activeFilter);
+            await this.fetchLinksResponse(res, activeFilter);
+            this.setFontAndSize(this.state.showLinksCount);
+            this.setState({viewMoreLinks: false});
         } catch(err) {
             console.log(err);
             this.setState({serverMsg: 'Something went wrong!'});
@@ -44,48 +42,19 @@ class Links extends Component {
     }
 
     setFilterAndLinkCount = (activeFilter) => {
-        for(let filter in this.state.filters) {
-            if(activeFilter === [filter][0]) {
-                this.setState(prevState => ({
-                    showLinksCount: 0,
-                    filters: {
-                        ...prevState.filters,
-                        [filter]: true
-                    }
-                }));
-            } else if(activeFilter === 'viewMore') {
-                this.setState({
-                    showLinksCount: this.state.showLinksCount + 5
-                });
-                if(this.state.filters[filter]) {
-                    return [filter][0];
-                }
-            } else {
-                this.setState(prevState => ({
-                    filters: {
-                        ...prevState.filters,
-                        [filter]: false
-                    }
-                }));
-            }
+        if(activeFilter === 'viewMore') {
+            const serverShowLimit = 20;
+            this.setState({
+                showLinksCount: this.state.showLinksCount + serverShowLimit
+            });
+        } else {
+            this.setState({
+                showLinksCount: 0,
+                filter: activeFilter
+            });
+            const links = document.getElementsByClassName('Links')[0];
+            links.scrollLeft = 0;
         }
-        return activeFilter;
-    }
-
-    addRatingToLinks = (links, userRatedLinks) => {
-        if(userRatedLinks !== undefined) {
-            for(let i = 0, iLen = links.length; i < iLen; i++) {
-                for(let j = 0, jLen = userRatedLinks.length; j < jLen; j++) {
-                    if(links[i]._id === userRatedLinks[j].linkId) {
-                        links[i].rating = userRatedLinks[j].rating;
-                    }
-                }
-                if(links[i].rating === undefined) {
-                    links[i].rating = 'none';
-                }
-            }
-        }
-        return links;
     }
 
     fetchLinksResponse = (res, activeFilter) => {
@@ -108,6 +77,22 @@ class Links extends Component {
                 success: false
             });
         }
+    }
+
+    addRatingToLinks = (links, userRatedLinks) => {
+        if(userRatedLinks !== undefined) {
+            for(let i = 0, iLen = links.length; i < iLen; i++) {
+                for(let j = 0, jLen = userRatedLinks.length; j < jLen; j++) {
+                    if(links[i]._id === userRatedLinks[j].linkId) {
+                        links[i].rating = userRatedLinks[j].rating;
+                    }
+                }
+                if(links[i].rating === undefined) {
+                    links[i].rating = 'none';
+                }
+            }
+        }
+        return links;
     }
 
     rateLink = async (newRating, currentRating, linkId) => {
@@ -156,14 +141,15 @@ class Links extends Component {
         }
     }
 
-    setFontAndSize = (e) => {
-        const allDesc = document.querySelectorAll('.description'),
+    setFontAndSize = (num) => {
+        const closedLinkContainer = document.querySelectorAll('.closedLinkContainer'),
         fontArray = ['Germania One','Margarine','Saira Extra Condensed','Baloo Chettan','Open Sans Condensed','Lora','Lilita One','Indie Flower','Lobster','Pacifico'];
-        for(let i = 0, len = allDesc.length; i < len; i++) {
+        for(let i = num, len = closedLinkContainer.length; i < len; i++) {
             const randomFont = Math.floor((Math.random() * fontArray.length)),
             randomFontSize = Math.floor((Math.random() * 75) + 25);
-            allDesc[i].style.fontFamily = fontArray[randomFont];
-            allDesc[i].style.fontSize = `${randomFontSize}px`;
+            const description = closedLinkContainer[i].getElementsByClassName('description')[0];
+            description.style.fontFamily = fontArray[randomFont];
+            description.style.fontSize = `${randomFontSize}px`;
         }
     }
 
@@ -184,11 +170,24 @@ class Links extends Component {
         }
     }
 
+    mouseScrollLeft = () => {
+        const links = document.getElementsByClassName('Links')[0];
+        links.addEventListener('wheel', e => {
+            links.scrollLeft += (e.deltaY / 2);
+            let maxScrollLeft = links.scrollWidth - links.clientWidth;
+            if(links.scrollLeft === maxScrollLeft) {
+                if(!this.state.viewMoreLinks) {
+                    this.setState({viewMoreLinks: true});
+                    this.fetchLinks('viewMore');
+                }
+            }
+        });
+    }
+
     render() {
         return (
             <div className="Links">
                 <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
-                {/* <p onClick={() => {this.fetchLinks('viewMore')}}>Load More</p> */}
 
                 <div className="allLinksContainer">
                     {this.state.linksList.map(link => {
@@ -217,10 +216,10 @@ class Links extends Component {
                 </div>
 
                 <div className="filterContainer">
-                    <p className={this.state.filters.latest ? 'active': ''} onClick={() => {this.fetchLinks('latest')}}>Latest</p>
-                    <p className={this.state.filters.oldest ? 'active': ''} onClick={() => {this.fetchLinks('oldest')}}>Oldest</p>
-                    <p className={this.state.filters.like ? 'active': ''} onClick={() => {this.fetchLinks('like')}}>Likes</p>
-                    <p className={this.state.filters.dislike ? 'active': ''} onClick={() => {this.fetchLinks('dislike')}}>DisLikes</p>
+                    <p className={this.state.filter === 'latest' ? 'active': ''} onClick={() => {this.fetchLinks('latest')}}>Latest</p>
+                    <p className={this.state.filter === 'oldest' ? 'active': ''} onClick={() => {this.fetchLinks('oldest')}}>Oldest</p>
+                    <p className={this.state.filter === 'like' ? 'active': ''} onClick={() => {this.fetchLinks('like')}}>Likes</p>
+                    <p className={this.state.filter === 'dislike' ? 'active': ''} onClick={() => {this.fetchLinks('dislike')}}>DisLikes</p>
                 </div>
             </div>
         );

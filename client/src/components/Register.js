@@ -8,7 +8,6 @@ class Register extends Component {
         userInput: {
             firstname: '',
             lastname: '',
-            age: '',
             email: '',
             password: '',
             confimPassword: ''
@@ -46,7 +45,6 @@ class Register extends Component {
                     body: JSON.stringify({
                         firstname: this.state.userInput.firstname,
                         lastname: this.state.userInput.lastname,
-                        age: this.state.userInput.age,
                         email: this.state.userInput.email,
                         password: this.state.userInput.password
                     })
@@ -98,7 +96,6 @@ class Register extends Component {
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
                     <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>
-                    <input className="inputField" type="text" name="age" placeholder="Age" value={this.state.userInput.age} onChange={this.handleChange} required/>
                     <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
                     <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
                     <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.userInput.confimPassword} onChange={this.handleChange} required/>

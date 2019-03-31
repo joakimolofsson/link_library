@@ -76,8 +76,8 @@ class AddLink extends Component {
                 <h1>Add a Link to the Library</h1>
                 <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
                 <form className="form" onSubmit={this.handleSubmit}>
-                    <input className="inputField" type="text" name="link" maxlength="200" placeholder="Link Address" value={this.state.addLink.link} onChange={this.handleChange} required/>
-                    <textarea name="description" cols="54" rows="5" maxlength="150" placeholder="Description" value={this.state.addLink.description} onChange={this.handleChange} required></textarea>
+                    <input className="inputField" type="text" name="link" maxLength="200" placeholder="Link Address" value={this.state.addLink.link} onChange={this.handleChange} required/>
+                    <textarea name="description" cols="54" rows="5" maxLength="150" placeholder="Description" value={this.state.addLink.description} onChange={this.handleChange} required></textarea>
                     <input type="submit" value="Add"/>
                 </form>
             </div>

@@ -53,8 +53,7 @@
     position: absolute;
     width: auto;
     height: 100%;
-    padding: 0 50px;
-    /* background: red; */
+    padding: 0 100px 0 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -99,6 +98,7 @@
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
+    user-select: none;
 }
 
 .Links .pulledOutLink .container {

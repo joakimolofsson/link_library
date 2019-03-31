@@ -8,7 +8,6 @@ class Profile extends Component {
         profile: {
             firstname: '',
             lastname: '',
-            age: '',
             email: '',
             password: '',
             confimPassword: ''
@@ -37,7 +36,6 @@ class Profile extends Component {
                     profile: {
                         firstname: res.profileData.firstname,
                         lastname: res.profileData.lastname,
-                        age: res.profileData.age,
                         email: res.profileData.email,
                         password: '',
                         confimPassword: ''
@@ -84,7 +82,6 @@ class Profile extends Component {
                     body: JSON.stringify({
                         firstname: this.state.profile.firstname,
                         lastname: this.state.profile.lastname,
-                        age: this.state.profile.age,
                         email: this.state.profile.email,
                         password: this.state.profile.password,
                         token: window.localStorage.getItem('token')
@@ -125,7 +122,6 @@ class Profile extends Component {
                 <form className="form" onSubmit={this.handleSubmit}>
                     <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.profile.firstname} onChange={this.handleChange} required/>
                     <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.profile.lastname} onChange={this.handleChange} required/>
-                    <input className="inputField" type="text" name="age" placeholder="Age" value={this.state.profile.age} onChange={this.handleChange} required/>
                     <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.profile.email} onChange={this.handleChange} required/>
                     <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.profile.password} onChange={this.handleChange} />
                     <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.profile.confimPassword} onChange={this.handleChange} />
