@@ -12,9 +12,17 @@ class Links extends Component {
     }
     
     componentDidMount = async () => {
-        this.fetchLinks('latest');
+        await this.fetchLinks('latest');
         this.mouseScrollLeft();
+
+        /* setTimeout(function() {
+            const links = document.getElementsByClassName('Links')[0];
+            console.log(links.scrollWidth);
+            console.log(links.clientWidth);
+            console.log(links.scrollLeft);
+        }, 1000); */
     }
+    
 
     fetchLinks = async (activeFilter) => {
         await this.setFilterAndLinkCount(activeFilter);
@@ -174,19 +182,22 @@ class Links extends Component {
         const links = document.getElementsByClassName('Links')[0];
         links.addEventListener('wheel', e => {
             links.scrollLeft += (e.deltaY / 2);
-            let maxScrollLeft = links.scrollWidth - links.clientWidth;
-            if(links.scrollLeft === maxScrollLeft) {
-                if(!this.state.viewMoreLinks) {
-                    this.setState({viewMoreLinks: true});
-                    this.fetchLinks('viewMore');
-                }
-            }
         });
+    }
+
+    scrollViewMore = (e) => {
+        const links = e.currentTarget;
+        if(links.scrollLeft + links.clientWidth === links.scrollWidth) {
+            if(!this.state.viewMoreLinks) {
+                this.setState({viewMoreLinks: true});
+                this.fetchLinks('viewMore');
+            }
+        }
     }
 
     render() {
         return (
-            <div className="Links">
+            <div className="Links" onScroll={this.scrollViewMore}>
                 <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
 
                 <div className="allLinksContainer">
