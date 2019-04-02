@@ -1,9 +1,12 @@
-.Profile {
+/* .Profile {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
     width: 320px;
+    height: 340px;
     background: white;
     padding: 30px 0;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -66,6 +69,103 @@
 .Profile input[type="submit"]:hover {
     background: rgb(0, 132, 255);
     color: white;
+    transition: .5s all;
+}
+
+.Profile input[type="submit"]:focus {
+    outline: none
+} */
+
+
+
+.Profile {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 320px;
+    height: 340px;
+    background: white;
+    padding: 30px 0;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.Profile h1 {
+    text-align: center;
+    color: rgb(0, 132, 255);
+}
+
+.Profile .message {
+    text-align: center;
+    color: red;
+    margin: 5px auto;
+    height: 18px;
+}
+
+.Profile .success {
+    color: green;
+}
+
+.Profile .form {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.Profile .inputField {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.Profile .lastInputField {
+    margin-bottom: 0px;
+}
+
+.Profile .inputField::-webkit-input-placeholder {
+    color:  rgba(0,0,0,0.3);
+}
+
+.Profile .inputField:-ms-input-placeholder {
+    color:  rgba(0,0,0,0.3);
+}
+
+.Profile .inputField::-ms-input-placeholder {
+    color:  rgba(0,0,0,0.3);
+}
+
+.Profile .inputField::placeholder {
+    color:  rgba(0,0,0,0.3);
+}
+
+.Profile .inputField:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(0, 132, 255);
+    -webkit-transition: .5s all;
+    -o-transition: .5s all;
+    transition: .5s all;
+}
+
+.Profile input[type="submit"] {
+    width: 100%;
+    margin-top: 20px;
+    height: 30px;
+    border: none;
+    background: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.5);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Profile input[type="submit"]:hover {
+    background: rgb(0, 132, 255);
+    color: white;
+    -webkit-transition: .5s all;
+    -o-transition: .5s all;
     transition: .5s all;
 }
 

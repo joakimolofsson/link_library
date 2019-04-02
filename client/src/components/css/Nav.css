@@ -1,4 +1,4 @@
-.Nav {
+/* .Nav {
     position: fixed;
     top: 0;
     left: 0;
@@ -6,10 +6,19 @@
     width: 100%;
     height: 50px;
     padding: 10px 10px 7px 10px;
-    /* box-shadow: 0 2px 10px rgba(0,0,0,0.2); */
-    /* background: #0084ff; */
-    transition: .5s top;
     overflow: hidden;
+    animation: showNav 2s forwards;
+}
+@keyframes showNav {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .showLinks {
@@ -171,6 +180,324 @@
     height: 66px;
     background: white;
     text-align: center;
+    transition: .5s top;
+}
+
+.Nav .showLinks {
+    top: 0;
+}
+
+.Nav .navContainer a {
+    text-decoration: none;
+    color: black;
+    padding: 25px 5%;
+    line-height: 66px;
+}
+
+.Nav .navContainer a:hover {
+    text-decoration: underline;
+    background: #0084ff;
+    color: white;
+} */
+
+
+
+.Nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 50px;
+    padding: 10px 10px 7px 10px;
+    overflow: hidden;
+    -webkit-animation: showNav 2s forwards;
+            animation: showNav 2s forwards;
+}
+@-webkit-keyframes showNav {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes showNav {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.showLinks {
+    top: 66px;
+    -webkit-transition: .5s top;
+    -o-transition: .5s top;
+    transition: .5s top;
+}
+
+.Nav h1 {
+    display: inline-block;
+    color: white;
+}
+
+.Nav .infoContainer {
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+
+
+.Nav .hamBarContainer {
+    position: relative;
+    float: right;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.Nav .hamBarContainer .hamBarClosed {
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: white;
+    -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+    -webkit-animation: hamBarClosed .5s forwards;
+            animation: hamBarClosed .5s forwards;
+}
+@-webkit-keyframes hamBarClosed {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+}
+@keyframes hamBarClosed {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+}
+.Nav .hamBarContainer .hamBarClosed::before {
+    content: '';    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: white;
+    -webkit-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    -webkit-animation: hamBarClosedBefore .5s forwards;
+            animation: hamBarClosedBefore .5s forwards;
+}
+@-webkit-keyframes hamBarClosedBefore {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: -13px;
+    }
+}
+@keyframes hamBarClosedBefore {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: -13px;
+    }
+}
+.Nav .hamBarContainer .hamBarClosed::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: white;
+    -webkit-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    -webkit-animation: hamBarClosedAfter .5s forwards;
+            animation: hamBarClosedAfter .5s forwards;
+}
+@-webkit-keyframes hamBarClosedAfter {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 13px;
+    }
+}
+@keyframes hamBarClosedAfter {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 13px;
+    }
+}
+
+.Nav .hamBarContainer .hamBarOpen {
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: white;
+    -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+    -webkit-animation: hamBarOpen .5s forwards;
+            animation: hamBarOpen .5s forwards;
+}
+@-webkit-keyframes hamBarOpen {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+    }
+}
+@keyframes hamBarOpen {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+    }
+}
+.Nav .hamBarContainer .hamBarOpen::before {
+    content: '';    
+    position: absolute;
+    top: -13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: white;
+    -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+    -webkit-animation: hamBarOpenBefore .5s forwards;
+            animation: hamBarOpenBefore .5s forwards;
+}
+@-webkit-keyframes hamBarOpenBefore {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+        top: 0;
+    }
+}
+@keyframes hamBarOpenBefore {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+        top: 0;
+    }
+}
+.Nav .hamBarContainer .hamBarOpen::after {
+    content: '';    
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: white;
+    -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+    -webkit-animation: hamBarOpenAfter .5s forwards;
+            animation: hamBarOpenAfter .5s forwards;
+}
+@-webkit-keyframes hamBarOpenAfter {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+        top: 0;
+    }
+}
+@keyframes hamBarOpenAfter {
+    50% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+        top: 0;
+    }
+    100% {
+        -webkit-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+        top: 0;
+    }
+}
+
+
+
+.Nav .navContainer {
+    position: fixed;
+    top: -66px;
+    right: 0;
+    width: 100%;
+    height: 66px;
+    background: white;
+    text-align: center;
+    -webkit-transition: .5s top;
+    -o-transition: .5s top;
     transition: .5s top;
 }
 

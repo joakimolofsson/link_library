@@ -35,7 +35,7 @@ class App extends Component {
         {this.state.auth && <Nav handleLogout={this.handleLogout}/>}
         <Route render={({location}) => (
           <TransitionGroup>
-            <CSSTransition key={location.key} timeout={4000} classNames="fade">
+            <CSSTransition key={location.key} timeout={2000} classNames="fade">
               <Switch location={location}>
               <Route exact path="/" render={(props) => <Login {...props} handleAuth={this.handleAuth}/>} />
               <Route exact path="/register" component={Register} />
