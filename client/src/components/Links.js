@@ -11,22 +11,14 @@ class Links extends Component {
         filter: '',
     }
     
-    componentDidMount = async () => {
-        await this.fetchLinks('latest');
-        this.mouseScrollLeft();
-
-        /* setTimeout(function() {
-            const links = document.getElementsByClassName('Links')[0];
-            console.log(links.scrollWidth);
-            console.log(links.clientWidth);
-            console.log(links.scrollLeft);
-        }, 1000); */
+    componentDidMount = () => {
+        this.fetchLinks('latest');
     }
     
 
     fetchLinks = async (activeFilter) => {
-        await this.setFilterAndLinkCount(activeFilter);
         try {
+            await this.setFilterAndLinkCount(activeFilter);
             const getLinks = await fetch('api/getlinks', {
                 method: 'POST',
                 headers: {
@@ -61,7 +53,7 @@ class Links extends Component {
                 filter: activeFilter
             });
             const links = document.getElementsByClassName('Links')[0];
-            links.scrollLeft = 0;
+            links.scrollTop = 0;
         }
     }
 
@@ -178,16 +170,9 @@ class Links extends Component {
         }
     }
 
-    mouseScrollLeft = () => {
-        const links = document.getElementsByClassName('Links')[0];
-        links.addEventListener('wheel', e => {
-            links.scrollLeft += (e.deltaY / 2);
-        });
-    }
-
-    scrollViewMore = (e) => {
+    loadMoreLinks = (e) => {
         const links = e.currentTarget;
-        if(links.scrollLeft + links.clientWidth === links.scrollWidth) {
+        if(links.scrollTop + links.clientHeight === links.scrollHeight) {
             if(!this.state.viewMoreLinks) {
                 this.setState({viewMoreLinks: true});
                 this.fetchLinks('viewMore');
@@ -195,9 +180,13 @@ class Links extends Component {
         }
     }
 
+    clickedLink(link) {
+        window.open(link, '_blank');
+    }
+
     render() {
         return (
-            <div className="Links" onScroll={this.scrollViewMore}>
+            <div className="Links" onScroll={this.loadMoreLinks}>
                 <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
 
                 <div className="allLinksContainer">
@@ -211,7 +200,7 @@ class Links extends Component {
                                 </div>
                                 <div className="openedLinkContainer" onClick={this.openLink}>
                                     <div className="container">
-                                        <a href={link.link} className="link">{link.link}</a>
+                                        <p className="link" onClick={() => {this.clickedLink(link.link)}}>{link.link}</p>
                                         <p className="description">{link.description}</p>
                                         
                                         <p className="posted">Added by: {link.firstname} {link.lastname} {link.posted.split('T')[0]}</p>

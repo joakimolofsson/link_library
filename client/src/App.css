@@ -1,15 +1,19 @@
-.fade-enter::before {
-    
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
 }
 
-.fade-enter-active::before {
-    
+.fade-enter-active {
+    opacity: 1;
+    transition: 2s all;
+    transition-delay: 2s;
 }
 
-.fade-exit::before {
-    
+.fade-exit {
+    opacity: 1;
 }
 
-.fade-exit-active::before {
-    
+.fade-exit-active {
+    opacity: 0;
+    transition: 2s all;
 }
