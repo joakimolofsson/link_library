@@ -1,4 +1,4 @@
-/* * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,7 +10,7 @@ html, body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -21,38 +21,6 @@ html, body {
   background: white;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: white; 
-} */
-
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-family: 'Josefin sans', sans-serif;
-}
-
-html, body {
-  background: #0084ff;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #0053a0; 
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: white;
-}
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: white; 
 }
