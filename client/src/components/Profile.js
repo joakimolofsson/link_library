@@ -41,9 +41,6 @@ class Profile extends Component {
                         confimPassword: ''
                     }                 
                 });
-            } else {
-                this.props.handleAuth(false);
-                this.props.history.push('/');
             }
         } catch(err) {
             console.log(err);

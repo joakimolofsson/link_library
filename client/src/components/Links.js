@@ -11,8 +11,20 @@ class Links extends Component {
         filter: '',
     }
     
-    componentDidMount = () => {
-        this.fetchLinks('latest');
+    componentDidMount = async () => {
+        await this.fetchLinks('latest');
+        
+        const links = document.getElementsByClassName('Links')[0];
+        links.addEventListener('wheel', this.loadMoreLinks);
+    }
+
+    componentDidUpdate = () => {
+        const links = document.getElementsByClassName('Links')[0];
+        console.log(links.clientWidth);
+        console.log(links.scrollWidth);
+        if(links.clientWidth === links.scrollWidth) {
+            console.log('alike');
+        }
     }
     
 
@@ -53,7 +65,7 @@ class Links extends Component {
                 filter: activeFilter
             });
             const links = document.getElementsByClassName('Links')[0];
-            links.scrollTop = 0;
+            links.scrollLeft = 0;
         }
     }
 
@@ -150,6 +162,8 @@ class Links extends Component {
             const description = closedLinkContainer[i].getElementsByClassName('description')[0];
             description.style.fontFamily = fontArray[randomFont];
             description.style.fontSize = `${randomFontSize}px`;
+
+            
         }
     }
 
@@ -171,8 +185,11 @@ class Links extends Component {
     }
 
     loadMoreLinks = (e) => {
+        if(e.constructor.name === 'WheelEvent') {
+            e.currentTarget.scrollLeft -= -e.deltaY / 2;
+        }
         const links = e.currentTarget;
-        if(links.scrollTop + links.clientHeight === links.scrollHeight) {
+        if(links.scrollLeft > links.scrollWidth - links.clientWidth - 100) {
             if(!this.state.viewMoreLinks) {
                 this.setState({viewMoreLinks: true});
                 this.fetchLinks('viewMore');

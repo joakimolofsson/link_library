@@ -7,7 +7,8 @@
     height: 50px;
     padding: 10px 10px 7px 10px;
     overflow: hidden;
-    animation: showNav 2s forwards;
+    transition: .5s top;
+    /* animation: showNav 2s forwards; */
 }
 @keyframes showNav {
     0% {
@@ -21,7 +22,7 @@
     }
 }
 
-.showLinks {
+.dropDown {
     top: 66px;
     transition: .5s top;
 }
@@ -183,7 +184,7 @@
     transition: .5s top;
 }
 
-.Nav .showLinks {
+.Nav .dropDown {
     top: 0;
 }
 

@@ -43,24 +43,21 @@ class Login extends Component {
     }
 
     handleResponse = (res) => {
-        this.resetInputFields();
+        this.resetPassword();
         if(res.status === 'success') {
             window.localStorage.setItem('token', res.token);
-            this.props.handleAuth(true);
+            window.localStorage.setItem('loggedIn', new Date().getTime());
             this.props.history.push("/links");
         } else {
             this.setState({serverMsg: res.status});
         }
     }
 
-    resetInputFields = () => {
-        let resetInput = {};
-        for(let key in this.state.userInput) {
-            resetInput = {...resetInput, [key]: ''}
-        }
+    resetPassword = () => {
         this.setState({
             userInput: {
-                ...resetInput
+                email: this.state.userInput.email,
+                password: ''
             }
         });
     }

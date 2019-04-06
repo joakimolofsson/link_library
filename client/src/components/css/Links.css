@@ -53,7 +53,7 @@
     position: absolute;
     width: auto;
     height: 100%;
-    padding: 60px 50px;
+    padding: 50px;
     writing-mode: vertical-lr;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .Links .closedLinkContainer {
-    perspective: 1000px;
+    perspective: 500px;
 }
 
 .Links .closedLinkContainer .container {
@@ -81,7 +81,7 @@
 }
 .Links .linkContainer:hover .closedLinkContainer .container {
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5), 0 -7px 0 0 white;
-    transform: rotateX(-12deg) rotate(-1.5deg) translateY(2%);
+    transform: rotateX(-2deg) rotate(-1deg) translateY(1%);
     border-radius: 5px;
 }
 
@@ -99,6 +99,7 @@
     transform: rotateX(-12deg) rotate(-1.5deg) translateY(2%);
     border-radius: 5px;
 }
+
 
 
 .Links .show {

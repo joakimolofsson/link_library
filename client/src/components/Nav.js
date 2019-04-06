@@ -4,7 +4,7 @@ import './css/Nav.css';
 
 class Nav extends Component {
     state = {
-        showLinks: false,
+        dropDown: false,
         members: 0,
         links: 0
     }
@@ -44,30 +44,30 @@ class Nav extends Component {
         }
     }
 
-    handleShowLinks  = () => {
+    handledropDown  = () => {
         this.setState((state) => {
-            return {showLinks: !state.showLinks}
+            return {dropDown: !state.dropDown}
         });
     }
 
     render() {
-        const showLinks = this.state.showLinks ? 'showLinks' : '';
+        const dropDown = this.state.dropDown ? 'dropDown' : '';
         return (
-            <div className={`Nav ${showLinks}`}>
+            <div className={`Nav ${dropDown}`}>
                 <h1>Link Library</h1>
                 <div className="infoContainer">
                     <p>Members: {this.state.members}</p>
                     <p>Links in Library: {this.state.links}</p>
                 </div>
                 
-                <div className="hamBarContainer" onClick={this.handleShowLinks}>
-                    <div className={this.state.showLinks ? 'hamBarOpen' : 'hamBarClosed'}></div>
+                <div className="hamBarContainer" onClick={this.handledropDown}>
+                    <div className={this.state.dropDown ? 'hamBarOpen' : 'hamBarClosed'}></div>
                 </div>
     
-                <div className={`navContainer ${showLinks}`}>
-                    <Link to="/links" onClick={this.handleShowLinks}>Links</Link>
-                    <Link to="/addlink" onClick={this.handleShowLinks}>Add a Link</Link>
-                    <Link to="/profile" onClick={this.handleShowLinks}>Profile</Link>
+                <div className={`navContainer ${dropDown}`}>
+                    <Link to="/links" onClick={this.handledropDown}>Links</Link>
+                    <Link to="/addlink" onClick={this.handledropDown}>Add a Link</Link>
+                    <Link to="/profile" onClick={this.handledropDown}>Profile</Link>
                     <Link to="/" onClick={() => {this.props.handleLogout(true)}}>Log out</Link>
                 </div>
             </div>

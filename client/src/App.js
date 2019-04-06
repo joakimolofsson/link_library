@@ -12,19 +12,19 @@ import NotFound from './components/NotFound';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 class App extends Component {
-  state = {
-    auth: false
-  }
+  state = {}
 
-  handleAuth = (authState) => {
-    authState ?
-    this.setState({auth: true}) :
-    this.setState({auth: false});
+  handleAuth = () => {
+    const loggedIn = window.localStorage.getItem('loggedIn'),
+    currentTime = new Date().getTime(),
+    tenMin = 1000 * 60 * 10;
+    return (currentTime - loggedIn) < tenMin ? true : false;
   }
 
   handleLogout = (logoutState) => {
     if(logoutState) {
       window.localStorage.removeItem('token');
+      window.localStorage.removeItem('loggedIn');
       this.setState({auth: false});
     }
   }
@@ -32,16 +32,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.auth && <Nav handleLogout={this.handleLogout}/>}
+        {this.handleAuth() && <Nav handleLogout={this.handleLogout}/>}
         <Route render={({location}) => (
           <TransitionGroup>
-            <CSSTransition key={location.key} timeout={2000} classNames="fade">
+            <CSSTransition key={location.key} timeout={0} classNames="fade">
               <Switch location={location}>
-              <Route exact path="/" render={(props) => <Login {...props} handleAuth={this.handleAuth}/>} />
+              <Route exact path="/" render={(props) => <Login {...props} />} />
               <Route exact path="/register" component={Register} />
-              <ProtectedRoute exact path="/links" component={Links} auth={this.state.auth} handleAuth={this.handleAuth}/>
-              <ProtectedRoute exact path="/addlink" component={AddLink} auth={this.state.auth} handleAuth={this.handleAuth}/>
-              <ProtectedRoute exact path="/profile" component={Profile} auth={this.state.auth} handleAuth={this.handleAuth}/>
+              <ProtectedRoute exact path="/links" component={Links} handleAuth={this.handleAuth} />
+              <ProtectedRoute exact path="/addlink" component={AddLink} handleAuth={this.handleAuth} />
+              <ProtectedRoute exact path="/profile" component={Profile} handleAuth={this.handleAuth} />
               <Route component={NotFound} />
               </Switch>
             </CSSTransition>

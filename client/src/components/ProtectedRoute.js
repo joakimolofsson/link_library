@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-const ProtectedRoute = ({ component: Component, auth, handleAuth, ...rest }) => {
+const ProtectedRoute = ({ component: Component, handleAuth, ...rest }) => {
     return <Route {...rest} render={props => {
-            if(auth) {
-                return <Component {...props} handleAuth={handleAuth}/>
+            if(handleAuth()) {
+                return <Component {...props} />
             } else {
                 return <Redirect to={'/'}/>
             }
