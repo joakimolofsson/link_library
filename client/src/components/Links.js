@@ -16,17 +16,7 @@ class Links extends Component {
         
         const links = document.getElementsByClassName('Links')[0];
         links.addEventListener('wheel', this.loadMoreLinks);
-    }
-
-    componentDidUpdate = () => {
-        const links = document.getElementsByClassName('Links')[0];
-        console.log(links.clientWidth);
-        console.log(links.scrollWidth);
-        if(links.clientWidth === links.scrollWidth) {
-            console.log('alike');
-        }
-    }
-    
+    }    
 
     fetchLinks = async (activeFilter) => {
         try {
@@ -55,7 +45,7 @@ class Links extends Component {
 
     setFilterAndLinkCount = (activeFilter) => {
         if(activeFilter === 'viewMore') {
-            const serverShowLimit = 20;
+            const serverShowLimit = 30;
             this.setState({
                 showLinksCount: this.state.showLinksCount + serverShowLimit
             });
@@ -162,8 +152,6 @@ class Links extends Component {
             const description = closedLinkContainer[i].getElementsByClassName('description')[0];
             description.style.fontFamily = fontArray[randomFont];
             description.style.fontSize = `${randomFontSize}px`;
-
-            
         }
     }
 
@@ -197,8 +185,17 @@ class Links extends Component {
         }
     }
 
-    clickedLink(link) {
+    clickedLink = (link) => {
         window.open(link, '_blank');
+    }
+
+    tiltAnimation = (e) => {
+        const openedLinkContainer = e.currentTarget,
+        container = e.currentTarget.childNodes[0],
+        posX = (e.clientX - (openedLinkContainer.clientWidth / 2)) / 40,
+        posY = ((openedLinkContainer.clientHeight / 2) - e.clientY) / 20;
+
+        container.style.transform = `rotateY(${posX}deg) rotateX(${posY}deg) translate(-50%, -50%)`;
     }
 
     render() {
@@ -215,7 +212,7 @@ class Links extends Component {
                                         <p className="description">{link.description}</p>
                                     </div>
                                 </div>
-                                <div className="openedLinkContainer" onClick={this.openLink}>
+                                <div className="openedLinkContainer" onClick={this.openLink} onMouseMove={this.tiltAnimation}>
                                     <div className="container">
                                         <p className="link" onClick={() => {this.clickedLink(link.link)}}>{link.link}</p>
                                         <p className="description">{link.description}</p>

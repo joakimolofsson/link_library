@@ -1,7 +1,7 @@
 {
-  "name": "mern_app",
+  "name": "link_library",
   "version": "1.0.0",
-  "description": "MERN App",
+  "description": "Link Library",
   "main": "server.js",
   "scripts": {
     "client": "cd client && npm start",
