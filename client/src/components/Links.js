@@ -156,19 +156,30 @@ class Links extends Component {
     }
 
     openLink = (e) => {
-        if(e.currentTarget.classList.contains('closedLinkContainer')) {
-            e.currentTarget.classList.add('pulledOutLink');
-            e.currentTarget.nextElementSibling.classList.remove('hide');
-            e.currentTarget.nextElementSibling.classList.add('show');
-            e.currentTarget.nextElementSibling.style.display = 'block';            
-        } else if(e.target.classList.contains('openedLinkContainer')) {
-            e.currentTarget.previousElementSibling.classList.remove('pulledOutLink');
-            e.currentTarget.classList.remove('show');
-            e.currentTarget.classList.add('hide');            
-            const elem = e.currentTarget;
+        const links = document.getElementsByClassName('Links')[0],
+        container = e.currentTarget;
+
+        if(container.classList.contains('closedLinkContainer')) {
+            container.classList.add('pulledOutLink');
+
+            const openedLinkContainer = container.nextElementSibling;
+            openedLinkContainer.classList.remove('hide');
+            openedLinkContainer.classList.add('show');
+            openedLinkContainer.style.display = 'block';
+
+            links.removeEventListener('wheel', this.loadMoreLinks);
+        } else if(container.classList.contains('openedLinkContainer')) {
+            const closedLinkContainer = container.previousElementSibling;
+            closedLinkContainer.classList.remove('pulledOutLink');
+            
+            container.classList.remove('show');
+            container.classList.add('hide');
+
             setTimeout(function() {
-                elem.style.display = 'none';
-            }, 1000);            
+                container.style.display = 'none';
+            }, 1000);
+
+            links.addEventListener('wheel', this.loadMoreLinks);
         }
     }
 

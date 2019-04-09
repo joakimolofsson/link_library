@@ -91,17 +91,19 @@ class Register extends Component {
     render() {
         return (
             <div className="Register">
-                <h1>Link Library</h1>
-                <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
-                <form className="form" onSubmit={this.handleSubmit}>
-                    <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
-                    <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>
-                    <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
-                    <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
-                    <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.userInput.confimPassword} onChange={this.handleChange} required/>
-                    <input type="submit" value="Sign up!"/>
-                </form>
-                <p className="option" onClick={() => {this.props.history.push("/")}}>Back</p>
+                <div className="container">
+                    <h1>Link Library</h1>
+                    <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
+                    <form className="form" onSubmit={this.handleSubmit}>
+                        <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.userInput.firstname} onChange={this.handleChange} required/>
+                        <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.userInput.lastname} onChange={this.handleChange} required/>
+                        <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
+                        <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
+                        <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.userInput.confimPassword} onChange={this.handleChange} required/>
+                        <input type="submit" value="Sign up!"/>
+                    </form>
+                    <p className="option" onClick={() => {this.props.history.push("/")}}>Back</p>
+                </div>
             </div>
         );
     }

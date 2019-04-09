@@ -65,17 +65,19 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
-                <h1>Link Library</h1>
-                <p className="message">{this.state.serverMsg}</p>
-                <form className="form" onSubmit={this.handleSubmit}>
-                    <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
-                    <input className="inputField lastInputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
-                    <p className="option firstOption">Forgot password?</p>
-                    <input type="submit" value="Log In"/>
-                </form>
-                <div className="optionContainer">
-                    <p className="option">Don't have an account?</p>
-                    <p className="option lastOption" onClick={() => {this.props.history.push("/register")}}>Sign up!</p>
+                <div className="container">
+                    <h1>Link Library</h1>
+                    <p className="message">{this.state.serverMsg}</p>
+                    <form className="form" onSubmit={this.handleSubmit}>
+                        <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.userInput.email} onChange={this.handleChange} required/>
+                        <input className="inputField lastInputField" type="password" name="password" placeholder="Password" value={this.state.userInput.password} onChange={this.handleChange} required/>
+                        <p className="option firstOption">Forgot password?</p>
+                        <input type="submit" value="Log In"/>
+                    </form>
+                    <div className="optionContainer">
+                        <p className="option">Don't have an account?</p>
+                        <p className="option lastOption" onClick={() => {this.props.history.push("/register")}}>Sign up!</p>
+                    </div>
                 </div>
             </div>
         );

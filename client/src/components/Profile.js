@@ -114,16 +114,18 @@ class Profile extends Component {
     render() {
         return (
             <div className="Profile">
-                <h1>Your Profile</h1>
-                <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
-                <form className="form" onSubmit={this.handleSubmit}>
-                    <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.profile.firstname} onChange={this.handleChange} required/>
-                    <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.profile.lastname} onChange={this.handleChange} required/>
-                    <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.profile.email} onChange={this.handleChange} required/>
-                    <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.profile.password} onChange={this.handleChange} />
-                    <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.profile.confimPassword} onChange={this.handleChange} />
-                    <input type="submit" value="Update"/>
-                </form>
+                <div className="container">
+                    <h1>Your Profile</h1>
+                    <p className={`message ${this.state.success ? 'success' : ''}`}>{this.state.serverMsg}</p>
+                    <form className="form" onSubmit={this.handleSubmit}>
+                        <input className="inputField" type="text" name="firstname" placeholder="Firstname" value={this.state.profile.firstname} onChange={this.handleChange} required/>
+                        <input className="inputField" type="text" name="lastname" placeholder="Lastname" value={this.state.profile.lastname} onChange={this.handleChange} required/>
+                        <input className="inputField" type="email" name="email" placeholder="E-mail" value={this.state.profile.email} onChange={this.handleChange} required/>
+                        <input className="inputField" type="password" name="password" placeholder="Password" value={this.state.profile.password} onChange={this.handleChange} />
+                        <input className="inputField lastInputField" type="password" name="confimPassword" placeholder="Confim Password" value={this.state.profile.confimPassword} onChange={this.handleChange} />
+                        <input type="submit" value="Update"/>
+                    </form>
+                </div>
             </div>
         );
     }

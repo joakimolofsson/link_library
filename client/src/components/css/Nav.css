@@ -25,6 +25,7 @@
 .dropDown {
     top: 66px;
     transition: .5s top;
+    background: #0084ff;
 }
 
 .Nav h1 {

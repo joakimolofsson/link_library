@@ -1,15 +1,65 @@
 .fade-exit {
-
+    opacity: 1;
+}
+.fade-exit::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100vw;
+    height: 100vh;
+    background: red;
+    z-index: 999999;
 }
 
 .fade-exit-active {
-
+    opacity: 0;
+    transition: 0s opacity;
+    transition-delay: 1s;
+}
+.fade-exit-active::before {
+    content: '';
+    animation: slide 1s;
+}
+@keyframes slide {
+    100% {
+        left: 0;
+    }
 }
 
 .fade-enter {
-
+    
+}
+.fade-enter::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: red;
+    z-index: 999999;
+    opacity: 0;
 }
 
 .fade-enter-active {
-
+    
+}
+.fade-enter-active::before {
+    content: '';
+    animation: reSlide 2s;
+}
+@keyframes reSlide {
+    49% {
+        opacity: 0;
+        left: 0;
+    }
+    50% {
+        opacity: 1;
+        left: 0;
+    }
+    100% {
+        opacity: 1;
+        left: -100%;
+    }
 }
