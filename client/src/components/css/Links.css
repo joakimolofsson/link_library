@@ -226,8 +226,20 @@
 
 
 
-@media screen and (max-width: 400px) {
-    .Nav .infoContainer {
-        display: none;
+@media screen and (max-width: 500px) {
+    .Links .openedLinkContainer .container {
+        min-width: 90%;
+    }
+
+    .Links .openedLinkContainer .link {
+        font-size: 16px;
+    }
+
+    .Links .openedLinkContainer .description {
+        font-size: 16px !important;
+    }
+
+    .Links .openedLinkContainer .posted {
+        font-size: 12px;
     }
 }
