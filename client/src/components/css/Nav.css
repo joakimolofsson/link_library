@@ -190,14 +190,23 @@
 }
 
 .Nav .navContainer a {
-    text-decoration: none;
-    color: black;
-    padding: 25px 5%;
-    line-height: 66px;
+    padding: 33px 5% 17px 5%;
+}
+.Nav .navContainer a:hover {
+    background: #0084ff;
 }
 
-.Nav .navContainer a:hover {
-    text-decoration: underline;
-    background: #0084ff;
-    color: white;
+.Nav .navContainer a .navIcon {
+    margin-top: 15px;
+}
+.Nav .navContainer a:hover .navIcon {
+    fill: white;
+}
+
+
+
+@media screen and (max-width: 400px) {
+    .Nav .infoContainer {
+        display: none;
+    }
 }

@@ -200,19 +200,34 @@
     transform: translateZ(35px);
 }
 
+.Links .openedLinkContainer .rateContainer div {
+    display: inline-block;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
 .Links .openedLinkContainer .rateContainer p {
     display: inline-block;
-    margin: 0 5px;
+    margin: 0 5px 0 5px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .Links .openedLinkContainer .rated {
     color: #0084ff;
-    text-decoration: underline;
+    fill: #0084ff;
 }
 
 .Links .openedLinkContainer .posted {
-    font-size: 13px;
+    font-size: 15px;
     text-align: right;
     transform: translateZ(30px);
+}
+
+
+
+@media screen and (max-width: 400px) {
+    .Nav .infoContainer {
+        display: none;
+    }
 }

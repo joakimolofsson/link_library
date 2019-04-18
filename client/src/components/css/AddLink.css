@@ -97,3 +97,23 @@
 .AddLink input[type="submit"]:focus {
     outline: none
 }
+
+
+
+@media screen and (max-width: 480px) {
+    .AddLink .container {
+        width: 300px;
+    }
+
+    .AddLink h1 {
+        font-size: 20px;
+    }
+
+    .AddLink .form {
+        width: 280px;
+    }
+
+    .AddLink textarea {
+        width: 100%;
+    }
+}

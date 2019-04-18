@@ -1,5 +1,6 @@
 const validator = require('validator');
 const UserModel = require('../models/user');
+const LinkModel = require('../models/link');
 
 const login = async (req, res, next) => {
     req.inputError = await inputValidation(req.body, 'login');
@@ -92,6 +93,17 @@ const checkInput = async (val, type, event) => {
                 return 'Your link is too long or too short!';
             } else if(!validator.isURL(link)) {
                 return 'Invalid link!';
+            } else {
+                try {
+                    const checkLink = await LinkModel.findOne({
+                        link
+                    });
+                    if(checkLink) {
+                        return 'Link already exists!';
+                    }
+                } catch(err) {
+                    return 'Something went wrong!';
+                }
             }
             break;
         case 'description':
